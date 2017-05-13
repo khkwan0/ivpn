@@ -1,0 +1,592 @@
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   These examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+@media only screen and (min-width: 35em) {
+    /* Style adjustments for viewports that meet the condition */
+}
+
+@media print,
+(-webkit-min-device-pixel-ratio: 1.25),
+(min-resolution: 1.25dppx),
+(min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid the additional HTTP request:
+   http://www.phpied.com/delay-loading-your-print-css/
+   ========================================================================== */
+
+@media print {
+    *,
+    *:before,
+    *:after {
+        background: transparent !important;
+        color: #000 !important;
+        /* Black prints faster:
+                                   http://www.sanbeiji.com/archives/953 */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+    /*
+     * Don't show links that are fragment identifiers,
+     * or use the `javascript:` pseudo protocol
+     */
+    a[href^="#"]:after,
+    a[href^="javascript:"]:after {
+        content: "";
+    }
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+    /*
+     * Printing Tables:
+     * http://css-discuss.incutio.com/wiki/Printing_Tables
+     */
+    thead {
+        display: table-header-group;
+    }
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+    img {
+        max-width: 100% !important;
+    }
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+@media (max-width: 1199px) {
+    html {
+        font-size: 95%;
+    }
+    .separate-div {
+        max-width: 920px;
+        padding: 4rem;
+    }
+    .blog a {
+        padding: 9rem 0;
+    }
+    .shared-content {
+        padding: 3rem;
+    }
+    .set-bg {
+        background-size: 200px 150px !important;
+    }
+    .offcanvas {
+        max-width: 66%;
+    }
+}
+
+@media (max-width: 991px) {
+    html {
+        font-size: 90%;
+    }
+    .center-navbar {
+        margin-left: 0;
+    }
+    #main {
+        display: inline-block;
+        position: absolute;
+        top: 0;
+        -webkit-transition: all 0.25s ease-in-out 0s;
+        transition: all 0.25s ease-in-out 0s;
+        padding: 16px;
+    }
+    .navbar-right {
+        float: right;
+    }
+    .navbar-right li {
+        display: inline-block;
+    }
+    .footer-app a {
+        display: block;
+        margin-bottom: 20px;
+        margin-left: 0;
+    }
+    .side-collapse .center-navbar li a {
+        color: #FFA126;
+    }
+    .navbar-header {
+        position: absolute;
+        top: 15px;
+    }
+    .md-hide {
+        display: none!important;
+    }
+    .md-footer {
+        display: block;
+        float: left;
+        margin-left: 10px;
+    }
+    .md-footer ul li {
+        margin-bottom: 15px;
+    }
+    .md-footer ul {
+        float: left;
+        padding-left: 30px;
+        margin-bottom: 0;
+    }
+    .primary-footer {
+        padding-bottom: 0;
+    }
+    .md-show {
+        display: block;
+    }
+    .separate-div {
+        max-width: 750px;
+        padding: 3rem;
+    }
+    .set-img {
+        padding: 0;
+        margin-bottom: 20rem;
+    }
+    .set-box {
+        top: 20rem;
+    }
+    .budget {
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+    .blog > div::before,
+    .budget::before {
+        position: absolute;
+        content: '';
+        background-color: rgba(0, 0, 0, .5);
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+    .shadow-box {
+        margin-left: 15px;
+    }
+    .budget-section {
+        margin-top: 0;
+    }
+    .shared-content {
+        padding: 2rem;
+    }
+    .shared-sec-1 {
+        padding: 8rem 0;
+    }
+    .shared-section,
+    .shared-sec-1 {
+        height: auto;
+    }
+    .shared-content {
+        transform: translate(0);
+        left: 0;
+    }
+    .shared-sec-2,
+    .shared-sec-3,
+    .shared-sec-4 {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+    }
+    .count-head {
+        margin-top: 0;
+    }
+    .navbar-toggle {
+        display: block;
+        float: left;
+        position: absolute;
+        top: 8px;
+        left: 30px;
+    }
+    .offcanvas {
+        display: none;
+        position: fixed;
+        align-items: center;
+        width: 300px;
+        background-color: white;
+    }
+    .navmenu-nav {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-top: 75px;
+    }
+    .logo-sidebar {
+        background-image: url(../images/nav_logo_color.svg);
+        width: 115px;
+        height: 36px;
+        position: relative;
+        background-size: 115px 36px;
+        background-position: center;
+        padding: 0;
+        width: 100%;
+        background-repeat: no-repeat;
+        margin-top: 15px;
+    }
+    .navmenu-nav li {
+        width: 100%;
+    }
+    .navmenu-nav li a {
+        color: #FFA126;
+        padding: 12px;
+    }
+    .navmenu-nav li a:hover {
+        background-color: #FFA126;
+        color: white;
+    }
+    .logo {
+        margin-top: 0;
+        margin-left: 30px;
+    }
+    header {
+        padding-top: 10px;
+        align-items: center;
+        padding-left: 60px;
+    }
+    .canvas-sliding .body-overlay,
+    .canvas-slid .body-overlay {
+        background-color: rgba(255, 255, 255, .75);
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        z-index: 1;
+    }
+    .hero-info {
+        background-image: url(../images/hero_home_m.jpg);
+    }
+    .hero-md-mid {
+        width: 165px;
+        height: 135px;
+        margin-bottom: 0;
+        margin-top: 30px;
+    }
+    .hero-content {
+        position: absolute;
+        top: 7rem;
+        width: 100%;
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+        position: absolute;
+    }
+    .md-mr-b-20 {
+        margin-bottom: 20px;
+    }
+    .features-budget {
+        height: auto;
+        padding-bottom: 40px;
+    }
+}
+
+@media (max-width: 767px) {
+    html {
+        font-size: 85%;
+    }
+    .md-footer ul {
+        float: left;
+        padding-left: 0;
+        padding-right: 20px;
+        margin-bottom: 0;
+    }
+    .inverse-logo {
+        display: none;
+    }
+    .separate-div {
+        padding: 3rem 1rem;
+    }
+    .set-box {
+        padding: 3rem;
+    }
+    .internet-security_content {
+        width: 100%;
+    }
+    .internet-security_content:nth-child(even),
+    .internet-security_content:nth-child(odd) {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .md-footer {
+        margin-left: 0;
+    }
+    .custom-inline li a {
+        padding-left: 0;
+        padding-right: 15px;
+    }
+    .mr-l-10 {
+        margin-left: 5px;
+    }
+    .mr-r-10 {
+        margin-right: 5px;
+    }
+    .full-width-md {
+        width: 100%;
+    }
+    .div-50 {
+        width: 100%;
+    }
+    .inner-iginte-header {
+        background-size: 100%;
+    }
+    .collapse-div {
+        margin-top: 20px!important;
+    }
+}
+
+@media (max-width: 580px) {
+    html {
+        font-size: 80%;
+    }
+    .separate-div {
+        height: auto;
+        padding: 5rem 1rem;
+    }
+    .navbar-nav.navbar-right {
+        margin-right: 15px;
+    }
+    .navbar-toggle {
+        padding-left: 0;
+    }
+    .md-footer ul {
+        padding-left: 0;
+        padding-right: 15px;
+    }
+    .primary-footer {
+        opacity: 1;
+        background: #FFFFFF url(../images/footer_clock.png);
+        background-repeat: no-repeat;
+        background-position: left top;
+        background-size: cover;
+        min-height: 215px;
+    }
+    .primary-footer {
+        padding-bottom: 20px;
+    }
+    .footer-app a {
+        margin-left: 0;
+        margin-right: 15px;
+        display: inline-block;
+        margin-bottom: 0;
+    }
+    .footer-links {
+        display: table;
+        width: 100%;
+        padding: 20px 0;
+    }
+    .footer-app {
+        float: left;
+    }
+    .custom-inline li a {
+        padding-left: 0;
+    }
+    .md-footer {
+        margin-left: 0;
+    }
+    .sm-hide {
+        display: none!important;
+    }
+    .div-50 {
+        width: 100%;
+    }
+    .no-padding-sm {
+        padding: 0;
+    }
+    .no-padding-top-sm {
+        padding-top: 0;
+    }
+    .no-padding-bottom-sm {
+        padding-bottom: 0;
+    }
+    .no-padding-left-sm {
+        padding-left: 0;
+    }
+    .no-padding-right-sm {
+        padding-right: 0;
+    }
+    .no-margin-sm {
+        margin: 0;
+    }
+    .no-margin-top-sm {
+        margin-top: 0;
+    }
+    .no-margin-bottom-sm {
+        margin-bottom: 0;
+    }
+    .no-margin-left-sm {
+        margin-left: 0;
+    }
+    .no-margin-right-sm {
+        margin-right: 0;
+    }
+    .full-width-sm {
+        width: 100%;
+    }
+    .custom-inline li a {
+        padding-left: 0;
+        padding-right: 0;
+        font-size: 13px;
+    }
+    .panel-default > .panel-heading {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .custom-navbar-header {
+        width: auto;
+    }
+    .panel-heading {
+        padding: 15px;
+    }
+    .set-box {
+        padding: 3rem 1rem;
+    }
+    .heading-3 {
+        font-size: 1.5rem;
+        line-height: 24px;
+        margin-top: 10px;
+    }
+    .heading-1 {
+        font-size: 2.5rem;
+        line-height: 34px;
+    }
+    .hero-sm-logo {
+        top: 45%;
+        width: 80px;
+        height: 75px;
+    }
+    .mbl-center {
+        left: 50%;
+        -webkit-transform: translateX(-50%);
+        -ms-transform: translateX(-50%);
+        transform: translateX(-50%);
+        position: absolute;
+    }
+    .heading-2,
+    .heading-2--left,
+    .heading-2--centered {
+        font-size: 2rem;
+        line-height: 34px;
+    }
+    .paragraph--large {
+        font-size: 1rem;
+        line-height: 32px;
+    }
+    .link--large {
+        font-size: 1.125rem;
+    }
+    .collapse-div {
+        margin-top: 20px!important;
+        width: 90%;
+        margin: 0 auto;
+        margin-top: 20px;
+    }
+    .blog a {
+        padding: 5rem 0;
+    }
+    .paragraph--small {
+        margin: 1rem 0;
+    }
+    .bg-mbl-app {
+        height: 500px;
+    }
+    .logo {
+        margin-left: 0px !important;
+    }
+    .navbar-toggle {
+        left: 15px;
+    }
+    header {
+        padding-right: 15px;
+    }
+    .hero-info {
+        padding: 20rem 0 20rem 0;
+    }
+    .hero-md-mid {
+        width: 100px;
+        height: 90px;
+        margin-top: 10px;
+    }
+    .link-btn {
+        padding: 7px 10px!important;
+        font-size: 12px;
+    }
+    .inner-features-header {
+        background-size: 100%;
+    }
+    .hero-info {
+        background-image: url(../images/hero_home_m.jpg);
+        background-size: cover;
+        padding: 9rem 0 22rem 0;
+        background-position-y: -30px;
+    }
+}
+
+@media (max-width: 420px) {
+    html {
+        font-size: 85%;
+    }
+    .navbar-right {
+        display: none;
+    }
+    .text-list {
+        float: none;
+    }
+    .social-icons {
+        margin-bottom: 0;
+        float: none;
+        padding: 0;
+        text-align: center;
+    }
+    .footer-app a {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    .footer-app {
+        float: none;
+        display: flex;
+        justify-content: space-between;
+    }
+    .md-footer {
+        margin-left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+    }
+    .primary-footer {
+        background-image: none;
+    }
+    .md-footer ul {
+        padding-right: 0;
+    }
+    .heading-1 {
+        font-size: 2rem;
+        line-height: 34px;
+    }
+    .hero-md-mid {
+        width: 90px;
+        height: 70px;
+    }
+}

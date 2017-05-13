@@ -1,0 +1,150 @@
+{% include "header.html" %}
+<div class="container">
+    <div>
+        <div class="row">
+            <div class="col-lg-8">
+                <h2>Configure</h2>
+                <h4>Configure your desired options and continute to checkout.</h4>
+                <div>
+                    <label>Choose billing cycle</label>
+                </div>
+                <select id="cycle" name="cycle" style="width:70%;padding-top:5px;padding-bottom:5px">
+                    <option value="monthly">{{ price.monthly}} USD Monthly</option>
+                    <option value="semi">{{ price.semi }} USD Semi-Annually</option>
+                    <option value="annual" selected>{{ price.annual }} USD Annually</option>
+                </select>
+                <div class="sub-heading">
+                    <span>Additonal required information</span>
+                </div>
+                <div>
+                    <label>Username - This will be your VPN login as well<label>
+                </div>
+                <div>
+                    <input id="uname" name="" style="width:70%;padding-top:5px;padding-bottom:5px"/>
+                </div>
+                <div>
+                    <label>Email - for password recovery<label>
+                </div>
+                <div>
+                    <input id="email" name="" style="width:70%;padding-top:5px;padding-bottom:5px"/>
+                </div>
+                <div>
+                    <label>
+                        VPN Password
+                    </label>
+                </div>
+                <div>
+                    <input id="pw1" name="pw1" type="password"  style="width:70%;padding-top:5px;padding-bottom:5px"/>
+                </div>
+                <div>
+                    <label>
+                        Confirm VPN Password
+                    </label>
+                </div>
+                <div>
+                    <input id="pw2" name="pw2" type="password"  style="width:70%;padding-top:5px;padding-bottom:5px"/>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div>
+                    <div>
+                        <span>Order Summary</span>
+                    </div>
+                    <div>
+                        <div><h5>Ignite VPN</h5></div>
+                    </div>
+                    <div>
+                        <table>
+                            <tr><td>IgniteVPN</td><td id="base_price"></td></tr>
+                            <tr><td colspan="2"><hr /></td></tr>
+                            <tr><td>Setup Fees</td><td>0.00</td></tr>
+                            <tr><td id="freq"></td><td id="freq_price"></td></tr>
+                            <tr><td colspan="2"><hr /></td></tr>
+                            <tr><td></td><td id="total"></td><tr>
+                            <tr><td></td><td style="text-align:right">Total Due Today</td><tr>
+                        </table>
+                    </div>
+                    <div>
+                        <button id="submit" class="btn btn-primary btn-lg">Contintue  <i class="fa fa-arrow-circle-right"></i></button>
+                    </div>
+                    <div id="error" style="display:none">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery.js"></script>
+<script>
+
+    populate_price();
+
+    $('#cycle').change(function() {
+        populate_price();
+    });
+
+    function populate_price() {
+        var cycle = $('#cycle').find(':selected').val();
+        var cost = 0.00;
+        var freq_display = '';
+        if (cycle == 'annual') {
+            cost =  {{ price.annual }};
+            freq_display = 'Annually';
+        } else if (cycle == 'semi') {
+            cost = {{ price.semi }};
+            freq_display = 'Semi-Annually';
+        } else if (cycle == 'monthly') {
+            cost = {{ price.monthly }};
+            freq_display = 'Monthly';
+        }
+        $('#base_price').text(cost);
+        $('#freq_price').text(cost);
+        $('#freq').text(freq_display);
+        $('#total').text(cost);
+    }
+
+$('#submit').click(function() {
+    var uname = $('#uname').val();
+    var email = $('#email').val();
+    var pw1 = $('#pw1').val();
+    var pw2 = $('#pw2').val();
+    var cycle = $('#cycle').find(':selected').val();
+    $('#error').hide();
+    if (uname && pw1 && pw2 && email && pw1===pw2) {
+        $.post('/api/register', 
+            {
+                'uname': uname,
+                'pwd': pw1,
+                'email':email,
+                'freq': cycle
+            }, function(data) {
+                if (data.status == 0) {
+                    $('#error').text(data.msg);
+                    $('#error').show();
+                }  else {
+                    try {
+                        if (data.status == 1) {
+                            window.location = '/payment/'+data.msg;
+                        } else {
+                            $('#error').text(dat.msg);
+                            $('#error').show();
+                        }
+                    } catch(e) {
+                        $('#error').text(data.msg);
+                        $('#error').show();
+                    }
+                }
+            },'json');
+    } else if (!uname) {
+        $('#error').text('No User Name');
+        $('#error').show();
+    } else if (!email) {
+        $('#error').text('No Email');
+        $('#error').show();
+    } else {
+        $('#error').text('Password mismatch');
+        $('#error').show();
+    }
+});
+</script>
+{% include "footer.html" %}
