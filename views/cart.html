@@ -19,13 +19,13 @@
                     <label>Username - This will be your VPN login as well<label>
                 </div>
                 <div>
-                    <input id="uname" name="" style="width:70%;padding-top:5px;padding-bottom:5px"/>
+                    <input id="uname" name="uname" style="width:70%;padding-top:5px;padding-bottom:5px"/>
                 </div>
                 <div>
                     <label>Email - for password recovery<label>
                 </div>
                 <div>
-                    <input id="email" name="" style="width:70%;padding-top:5px;padding-bottom:5px"/>
+                    <input id="lemail" name="email" style="width:70%;padding-top:5px;padding-bottom:5px"/>
                 </div>
                 <div>
                     <label>
@@ -71,6 +71,7 @@
                 </div>
             </div>
         </div>
+<script src="/js/jquery.js"></script>
 <script>
 
     populate_price();
@@ -101,11 +102,12 @@
 
 $('#submit').click(function() {
     var uname = $('#uname').val();
-    var email = $('#email').val();
+    var email = $('#lemail').val();
     var pw1 = $('#pw1').val();
     var pw2 = $('#pw2').val();
     var cycle = $('#cycle').find(':selected').val();
     $('#error').hide();
+    console.log('email: '+ email);
     if (uname && pw1 && pw2 && email && pw1===pw2) {
         $.post('/api/register', 
             {

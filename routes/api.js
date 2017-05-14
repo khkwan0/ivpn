@@ -130,8 +130,9 @@ router.post('/charge_new', function(req, res, next) {
         if (err) {
             console.log(err);
         } else {
-            console.log('create ciustomer: ' + result);
-            query = 'update users set merch_customer_id="'+result.id+'", merch_customer_info="'+connection.escape(JSON.stringify(result))+'" where email="'+local_data.email+'"';
+            result.description = JSON.parse(result.description);
+            console.log('create ciustomer: ' + JSON.stringify(result));
+            query = "update users set merch_customer_id='"+result.id+"', merch_customer_info='"+JSON.stringify(result)+"' where email='"+local_data.email+"'";
             connection.query(query, function(err, db_result, fields) {
                 if (err) {
                     console.log(err);

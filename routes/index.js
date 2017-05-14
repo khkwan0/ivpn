@@ -3,9 +3,23 @@ const router = express.Router();
 const config = require('../config');
 const crypto = require('crypto');
 const zlib = require('zlib');
+const mysql = require('mysql');
+
+connection = mysql.createConnection({
+    host:   config.db.host,
+    user:   config.db.user,
+    password: config.db.pwd,
+    database: config.db.db
+});
+
+connection.connect();
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Ignite VPN' });
+  if (req.session.key) {
+      res.render('index', { title: 'Ignite VPN', email:req.session.key });
+  } else {
+      res.render('index', { title: 'Ignite VPN' });
+  }
 });
 
 router.get('/meet-ignite', function(req, res, next) {
@@ -73,24 +87,55 @@ router.get('/receipt/:cobj', function(req, res, next) {
 });
 
 router.post('/login', function(req, res, next) {
-    if (req.body.username && req.body.password) {
-        uname = req.body.username;
+    if (req.body.email && req.body.password) {
+        email = req.body.email;
         pwd = req.body.password;
-        if (verifyLogin(uname, pwd)) {
-            res.redirect('/members/clientarea');
-        } else {
-            res.render('login', {title: config.site.title});
-        }
+        verifyLogin(email, pwd).then(function(result) {
+            if (Object.keys(result).length === 1) {
+                req.session.key = email;
+                req.session.user = JSON.stringify(result[0]);
+                res.redirect('/members/clientarea');
+            } else {
+                res.render('login', {title: config.site.title});
+            }
+        }).catch(function(err) {
+            console.log(err);
+        });
     } else {
         res.render('login', {title: config.site.title});
     }
 });
 
 router.get('/members/clientarea', function(req, res, next) {
-    if (!req.user) {
+    if (!req.session.key) {
         res.render('login', {title: config.site.title});
     } else {
+        try {
+            user = JSON.parse(req.session.user);
+            user.merch_customer_info = JSON.parse(user.merch_customer_info);
+            res.render('clientarea', { title: config.site.title, user:user, email: user.email });
+        } catch(e) {
+            console.log(e);
+            res.status(500).send(e);
+        }
     }
 });
+
+function verifyLogin(email, pwd) {
+    email = connection.escape(email);
+    pwd = connection.escape(pwd);
+    let query = 'select * from ignite.users where email='+email+' and password='+pwd+' and active="1"';
+    return new Promise(function(resolve, reject) {
+        console.log(query);
+        connection.query(query, function(err, result, fields) {
+            if (err) {
+                console.log(err);
+                return reject(err);
+            }
+            console.log('here');
+            return resolve(result);
+        });
+    });
+}
 
 module.exports = router;
