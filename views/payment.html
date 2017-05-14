@@ -40,7 +40,7 @@
                         <div id="card-element"></div>
                         <div id="card-errors" role="alert"></div>
                     </div>
-                    <button>Submit Payment</button>
+                    <button id="sub_button">Submit Payment</button>
                 </form>
             </div>
         </div>
@@ -81,10 +81,12 @@ card.addEventListener('change', function(event) {
 var form = document.getElementById('payment-form');
 form.addEventListener('submit', function(event) {
 	event.preventDefault();
+    $('#sub_button').prop('disabled','true');
 	stripe.createToken(card).then(function(result) {
 		if (result.error) {
 			var displayError = document.getElementById('card-errors');
 			displayError.textContent = result.error.message;
+            $('#sub_button').prop('disabled','');
 		} else {
 			stripeTokenHandler(result.token);
 		}
@@ -98,7 +100,13 @@ function stripeTokenHandler(token) {
             'udata': '{{ enc }}'
 		},
 		function(data) {
-		}
+            if (data.status == '1') {
+                window.location = '/receipt/'+data.msg;
+            } else {
+                $('#card-errors').text(data.msg);
+                $('#sub_button').prop('disabled','');
+            }
+		},'json'
 	);
 }
 </script>

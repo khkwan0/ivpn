@@ -1,0 +1,16 @@
+{% include "header.html" %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-2"></div>
+            <div class="col-md-8">
+                <div>
+                    Succesfully charged your {{ cobj.source.brand}} ending in {{ cobj.source.last4 }} for {{ cobj.amount/100.0 }}
+                </div>
+                <div>
+                    Charge ID: {{ cobj.id }}
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% include "footer.html" %}

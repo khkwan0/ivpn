@@ -7,6 +7,7 @@ const stripe = require('stripe')(config.stripe.secret);
 const mysql = require('mysql');
 const validator = require('validator');
 const crypto = require('crypto');
+const zlib = require('zlib');
 var moment = require('moment');
 
 connection = mysql.createConnection({
@@ -52,9 +53,7 @@ router.post('/register', function(req, res, next) {
                             c:'usd',
                             f:freq
                         };
-                        let cipher = crypto.createCipher(config.crypto.algorithm, config.crypto.password);
-                        let encrypted = cipher.update(JSON.stringify(uobj),'utf8','hex');
-                        encrypted += cipher.final('hex');
+                        encrypted = encrypt(JSON.stringify(uobj));
                         response.status = 1;
                         response.msg = encrypted;
                         res.status(200).send(JSON.stringify(response));
@@ -75,6 +74,24 @@ router.post('/register', function(req, res, next) {
 
 });
 
+function encrypt(in_s) {
+    let cipher = crypto.createCipher(config.crypto.algorithm, config.crypto.password);
+    let encrypted = cipher.update(in_s,'utf8','hex');
+    encrypted += cipher.final('hex');
+    return encrypted;
+}
+
+function decrypt(in_s) {
+    try {
+        let decipher = crypto.createDecipher(config.crypto.algorithm, config.crypto.password);
+        let decrypted = decipher.update(in_s, 'hex', 'utf8');
+        decrypted += decipher.final('utf8');
+        return decrypted;
+    } catch(e) {
+        throw(e);
+    }
+}
+
 router.post('/charge_new', function(req, res, next) {
     var uobj = null;
     var stripe_data = null;
@@ -82,9 +99,7 @@ router.post('/charge_new', function(req, res, next) {
 
     // decrypt passed user obj
     try {
-        let decipher = crypto.createDecipher(config.crypto.algorithm, config.crypto.password);
-        let decrypted = decipher.update(req.body.udata, 'hex', 'utf8');
-        decrypted += decipher.final('utf8');
+        decrypted  = decrypt(req.body.udata);
         uobj = JSON.parse(decrypted);
     } catch(e) {
         console.log(e);
@@ -141,11 +156,17 @@ function doCharge(charge_obj, uobj, res) {
     try {
         console.log(charge_obj);
 
+        // what we return to ajax call
+        let rv_obj = {
+            status: 0,
+            msg: ''
+        };
         // charge it
         stripe.charges.create(charge_obj, function(err, charge) {
             if (err) {
                 console.log(err);
-                res.status(200).send(err);
+                rv_obj.msg = err;
+                res.status(200).send(JSON.stringify(rv_obj));
             } else {
                 console.log(charge)
                 if (charge.outcome.type == 'authorized') {
@@ -160,7 +181,6 @@ function doCharge(charge_obj, uobj, res) {
                         expire_date = moment().add(1, 'years').format('YYYY-MM-DD HH:mm:ss');
                     }
 
-
                     let query = 'update users set expire_date="'+expire_date+'" where user_id="'+uobj.uid+'"';
                     connection.query(query, function(err, db_result, fields) {
                         if (err) {
@@ -173,9 +193,22 @@ function doCharge(charge_obj, uobj, res) {
                             console.log(err);
                         }
                     });
-                    res.status(200).send(JSON.stringify(charge));
+                    zlib.deflate(JSON.stringify(charge), function(err, buffer) {
+                        try {
+                            charge_data = buffer.toString('base64');
+                            charge_data = encrypt(charge_data);
+                            rv_obj.status = 1;
+                            rv_obj.msg = charge_data;
+                            res.status(200).send(JSON.stringify(rv_obj));
+                        } catch(e) {
+                            console.log(e);
+                            rv_obj.msg = e;
+                            res.status(200).send(JSON.stringify(rv_obj));
+                        }
+                    })
                 } else {
-                    res.status(200).send('declined');
+                    rv_obj.msg = 'declined';
+                    res.status(200).send(JSON.stringify(rv_obj));
                 }
             }
         });
