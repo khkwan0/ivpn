@@ -4,7 +4,6 @@ const config = require('../config');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(config.stripe.secret);
-const mongo = require('mongodb');
 const validator = require('validator');
 const crypto = require('crypto');
 const zlib = require('zlib');
