@@ -3,5 +3,25 @@
         <div>
             {{ user.email }}
         </div>
+        <div>
+            {{ user._id }}
+        </div>
+        <div>
+            VPN Usage expiration date: {{ user.expire_date }}
+        </div>
+        <div>
+            <pre id="charge_history">
+            </pre>
+        </div>
     </div>
+<script src="/js/jquery.js"></script>
+<script>
+    $.get('/api/get_charges', function(data) {
+        if (data.res == 1) {
+            $('#charge_history').text(JSON.stringify(data.msg,null,4));
+        } else {
+            $('#charge_history').text(data.msg);
+        }
+    },'json');
+</script>
 {% include "footer.html" %}

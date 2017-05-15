@@ -4,24 +4,19 @@ const config = require('../config');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const stripe = require('stripe')(config.stripe.secret);
-const mysql = require('mysql');
+const mongo = require('mongodb');
 const validator = require('validator');
 const crypto = require('crypto');
 const zlib = require('zlib');
 var moment = require('moment');
 
-connection = mysql.createConnection({
-    host:   config.db.host,
-    user:   config.db.user,
-    password: config.db.pwd,
-    database: config.db.db
-});
-
-connection.connect();
-
 moment().format();
 
 router.post('/register', function(req, res, next) {
+    let response = {
+        status: 0,
+        msg: ''
+    };
     try {
         var user_data = req.body;
         var uname = user_data.uname;
@@ -30,11 +25,43 @@ router.post('/register', function(req, res, next) {
         var freq = user_data.freq;
 
         uname = validator.escape(uname);
-        let response = {
-            status: 0,
-            msg: ''
-        };
         if (validator.isEmail(email)) {
+            let db = req.db;
+            let collection = db.get('users');
+            datetime = moment().format('YYYY-MM-DD HH:mm:ss');
+            let user = {
+                name: uname,
+                password: pwd,
+                email: email,
+                reg_date: datetime,
+                merch_customer_id: '',
+                expire_date: datetime,
+                active: 1,
+                merch_customer_info: {}
+            };
+            collection.insert(user, function(err, doc) {
+                if (err) {
+                    console.log(err);
+                    if (err.code == 11000) {
+                        response.msg = 'Username: '+uname+' and/or Email: '+email+' already exists.';
+                    } else {
+                        response.msg = err.errmsg;
+                    }
+                } else {
+                    var uobj = {
+                        uid: doc._id,
+                        e:email,
+                        c:'usd',
+                        f:freq
+                    };
+                    encrypted = encrypt(JSON.stringify(uobj));
+                    response.status = 1;
+                    response.msg = encrypted;
+                }
+                res.status(200).send(JSON.stringify(response));
+            }); 
+
+        /*
             var query = 'insert into users(name, password, email) values("'+uname+'", "'+pwd+'", "'+email+'")';
             connection.query(query, function(err, result, fields) {
                 if (err) {
@@ -63,11 +90,13 @@ router.post('/register', function(req, res, next) {
                     }
                 }
             });
+            */
         } else {
             response.msg = 'Invalid email';
             res.status(200).send(JSON.stringify(response));
         }
     } catch(e) {
+        console.log(e);
         response.msg = e
         res.status(200).send(JSON.stringify(response));
     }
@@ -132,6 +161,14 @@ router.post('/charge_new', function(req, res, next) {
         } else {
             result.description = JSON.parse(result.description);
             console.log('create ciustomer: ' + JSON.stringify(result));
+            let db = req.db;
+            let collection = db.get('users');
+            collection.update({"email":local_data.email}, { $set: { "merch_customer_id": result.id, "merch_customer_info": result } }, function(err, result) {
+                if (err) {
+                    console.log(err);
+                }
+            });
+/*
             query = "update users set merch_customer_id='"+result.id+"', merch_customer_info='"+JSON.stringify(result)+"' where email='"+local_data.email+"'";
             connection.query(query, function(err, db_result, fields) {
                 if (err) {
@@ -140,6 +177,7 @@ router.post('/charge_new', function(req, res, next) {
                     console.log(db_result);
                 }
             });
+            */
 
             amount = getAmount(uobj);
             let charge_obj = {
@@ -148,12 +186,36 @@ router.post('/charge_new', function(req, res, next) {
                 customer: result.id, // customer id from above
                 description: 'IGNITE VPN Subscription charge for ' + uobj.e
             };
-            rv = doCharge(charge_obj, uobj, res);
+            rv = doCharge(charge_obj, uobj, req, res);
         }
     });
 });
 
-function doCharge(charge_obj, uobj, res) {
+router.get('/get_charges', function(req, res, next) {
+    if (req.session.key) {
+        let user = JSON.parse(req.session.user);
+        let db = req.db;
+        let collection = db.get('charge_history');
+        let msg_obj = {
+            res: 0,
+            msg: ''
+        }
+        collection.find({user_id:user._id}, function(err, result) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(result);
+                msg_obj.res = 1,
+                msg_obj.msg = result
+            }
+            res.status(200).send(JSON.stringify(msg_obj));
+        });
+    } else {
+        res.status(404).send();
+    }
+});
+
+function doCharge(charge_obj, uobj, req, res) {
     try {
         console.log(charge_obj);
 
@@ -182,6 +244,27 @@ function doCharge(charge_obj, uobj, res) {
                         expire_date = moment().add(1, 'years').format('YYYY-MM-DD HH:mm:ss');
                     }
 
+                    let db = req.db;
+                    let collection = db.get('users');
+                    collection.update({_id:uobj.uid}, { $set: { expire_date:expire_date } }, function(err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    collection = db.get('charge_history');
+                    let datetime = moment().format('YYYY-MM-DD HH:mm:ss');
+                    let charge_history_obj = {
+                        user_id: uobj.uid,
+                        datetime: datetime,
+                        outcome: charge.outcome.type,
+                        charge: charge
+                    }
+                    collection.insert(charge_history_obj, function(err, result) {
+                        if (err) {
+                            console.log(err);
+                        }
+                    });
+                    /*
                     let query = 'update users set expire_date="'+expire_date+'" where user_id="'+uobj.uid+'"';
                     connection.query(query, function(err, db_result, fields) {
                         if (err) {
@@ -194,6 +277,7 @@ function doCharge(charge_obj, uobj, res) {
                             console.log(err);
                         }
                     });
+                    */
                     zlib.deflate(JSON.stringify(charge), function(err, buffer) {
                         try {
                             charge_data = buffer.toString('base64');

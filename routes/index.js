@@ -3,16 +3,7 @@ const router = express.Router();
 const config = require('../config');
 const crypto = require('crypto');
 const zlib = require('zlib');
-const mysql = require('mysql');
 
-connection = mysql.createConnection({
-    host:   config.db.host,
-    user:   config.db.user,
-    password: config.db.pwd,
-    database: config.db.db
-});
-
-connection.connect();
 /* GET home page. */
 router.get('/', function(req, res, next) {
   if (req.session.key) {
@@ -90,7 +81,7 @@ router.post('/login', function(req, res, next) {
     if (req.body.email && req.body.password) {
         email = req.body.email;
         pwd = req.body.password;
-        verifyLogin(email, pwd).then(function(result) {
+        verifyLogin(req, email, pwd).then(function(result) {
             if (Object.keys(result).length === 1) {
                 req.session.key = email;
                 req.session.user = JSON.stringify(result[0]);
@@ -112,18 +103,28 @@ router.get('/members/clientarea', function(req, res, next) {
     } else {
         try {
             user = JSON.parse(req.session.user);
-            user.merch_customer_info = JSON.parse(user.merch_customer_info);
             res.render('clientarea', { title: config.site.title, user:user, email: user.email });
         } catch(e) {
             console.log(e);
-            res.status(500).send(e);
+            res.status(500).send();
         }
     }
 });
 
-function verifyLogin(email, pwd) {
-    email = connection.escape(email);
-    pwd = connection.escape(pwd);
+function verifyLogin(req, email, pwd) {
+    let db = req.db;
+    let collection = db.get('users');
+    return new Promise(function(resolve, reject) {
+        collection.find({email: email, password:pwd}, function(err, result) {
+            if (err) {
+                console.log(err);
+                return reject(err);
+            }
+            console.log(result);
+            return resolve(result);
+        });
+    })
+    /*
     let query = 'select * from ignite.users where email='+email+' and password='+pwd+' and active="1"';
     return new Promise(function(resolve, reject) {
         console.log(query);
@@ -136,6 +137,7 @@ function verifyLogin(email, pwd) {
             return resolve(result);
         });
     });
+    */
 }
 
 module.exports = router;

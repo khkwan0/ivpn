@@ -7,7 +7,10 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-const config = require('./config');
+var config = require('./config');
+var mongo = require('mongodb');
+var monk = require('monk');
+var db = monk(config.mongo.host+':'+config.mongo.port+'/'+config.mongo.db);
 
 
 var index = require('./routes/index');
@@ -42,6 +45,10 @@ app.use(session({
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(function(req, res,next) {
+    req.db = db;
+    next();
+});
 
 app.use('/', index);
 app.use('/api', api);
