@@ -11,6 +11,14 @@ var moment = require('moment');
 
 moment().format();
 
+router.get('/ips', function(req, res, next) {
+    let ips = [
+        {name:'Chicago USA',ip:'23.253.99.109'},
+        {name:'Midwest USA',ip:'23.253.99.109'}
+    ];
+    res.status(200).send(JSON.stringify(ips));
+});
+
 router.post('/register', function(req, res, next) {
     let response = {
         status: 0,
@@ -138,7 +146,7 @@ router.post('/charge_new', function(req, res, next) {
     try {
         stripe_data = JSON.parse(req.body.stripe_obj);
         token = stripe_data.id;
-        console.log(stripe_data);
+//        console.log(stripe_data);
     } catch(e) {
         console.log(e);
         res.status(200).send(e);
@@ -153,13 +161,13 @@ router.post('/charge_new', function(req, res, next) {
         description: JSON.stringify(local_data),
         source: token
     }
-    console.log(cus_obj);
+ //   console.log(cus_obj);
     stripe.customers.create(cus_obj, function(err, result) {
         if (err) {
             console.log(err);
         } else {
             result.description = JSON.parse(result.description);
-            console.log('create ciustomer: ' + JSON.stringify(result));
+//            console.log('create ciustomer: ' + JSON.stringify(result));
             let db = req.db;
             let collection = db.get('users');
             collection.update({"email":local_data.email}, { $set: { "merch_customer_id": result.id, "merch_customer_info": result } }, function(err, result) {
@@ -216,7 +224,7 @@ router.get('/get_charges', function(req, res, next) {
 
 function doCharge(charge_obj, uobj, req, res) {
     try {
-        console.log(charge_obj);
+//        console.log(charge_obj);
 
         // what we return to ajax call
         let rv_obj = {
@@ -230,7 +238,7 @@ function doCharge(charge_obj, uobj, req, res) {
                 rv_obj.msg = err;
                 res.status(200).send(JSON.stringify(rv_obj));
             } else {
-                console.log(charge)
+//                console.log(charge)
                 if (charge.outcome.type == 'authorized') {
                     let num_days = 0;
                     if (uobj.f == 'monthly') {
@@ -263,20 +271,45 @@ function doCharge(charge_obj, uobj, req, res) {
                             console.log(err);
                         }
                     });
-                    /*
-                    let query = 'update users set expire_date="'+expire_date+'" where user_id="'+uobj.uid+'"';
-                    connection.query(query, function(err, db_result, fields) {
-                        if (err) {
-                            console.log(err);
-                        }
+
+                    collection = db.get('users');
+                    collection.find({_id:uobj.uid}).then(function(docs) {
+                        return new Promise((resolve, reject)=> {
+                            let radius = req.radius;
+                            let uname = docs[0].name;
+                            let pwd = docs[0].password;
+                            let query = 'insert into radcheck values(0, ?, "User-Password", ":=", ?)';
+                            var inserts = [uname, pwd];
+                            query = radius.format(query, inserts);
+                            radius.query(query, function(err, db_result, fields) {
+                                if (err) {
+                                    console.log(err);
+                                    return reject(err);
+                                }
+                                return resolve(docs);
+                            });
+                        });
+                    }).then((docs)=> {
+                        return new Promise((resolve, reject)=> {
+                            let radius = req.radius;
+                            let uname = docs[0].name;
+                            let gname = config.radius_db.group_name;
+                            let query = 'insert into radusergroup values(?, ?, 1)';
+                            var inserts = [uname, gname];
+                            query = radius.format(query, inserts);
+                            console.log(query);
+                            radius.query(query, function(err, db_result, fields) {
+                                if (err) {
+                                    console.log(err);
+                                    return reject(err);
+                                }
+                                return resolve(db_result);
+                            });
+                        });
+                    }).catch((err)=> {
+                        console.log(err);
                     });
-                    query = 'insert into charge_history values(NULL, '+uobj.uid+', "'+moment().format('YYYY-MM-DD HH:mm:ss')+'","'+charge.outcome.type+'", "'+connection.escape(JSON.stringify(charge))+'")';
-                    connection.query(query, function(err, db_result, fields) {
-                        if (err) {
-                            console.log(err);
-                        }
-                    });
-                    */
+
                     zlib.deflate(JSON.stringify(charge), function(err, buffer) {
                         try {
                             charge_data = buffer.toString('base64');

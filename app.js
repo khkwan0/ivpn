@@ -10,12 +10,20 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var mongo = require('mongodb');
 var monk = require('monk');
+var mysql = require('mysql');
+
 var db = monk(config.mongo.host+':'+config.mongo.port+'/'+config.mongo.db);
-
-
 var index = require('./routes/index');
 var api = require('./routes/api');
 var nunjucks = require('nunjucks');
+
+var connection = mysql.createConnection({
+    host: config.radius_db.host,
+    user: config.radius_db.user,
+    password: config.radius_db.pwd,
+    database: config.radius_db.db
+});
+connection.connect();
 
 var app = express();
 nunjucks.configure('views', {
@@ -47,6 +55,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(function(req, res,next) {
     req.db = db;
+    req.radius = connection;
     next();
 });
 

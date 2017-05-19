@@ -16,6 +16,7 @@
     "mongodb": "^2.2.26",
     "monk": "^4.0.0",
     "morgan": "~1.8.1",
+    "mysql": "^2.13.0",
     "nunjucks": "^3.0.0",
     "redis": "^2.7.1",
     "serve-favicon": "~2.4.2",

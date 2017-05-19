@@ -1,18 +1,22 @@
 {% include "header.html" %}
     <div class="row">
-        <div>
-            {{ user.email }}
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div>
+                {{ user.email }}
+            </div>
+            <div>
+                {{ user._id }}
+            </div>
+            <div>
+                VPN Usage expiration date: {{ user.expire_date }}
+            </div>
+            <div>
+                <pre id="charge_history">
+                </pre>
+            </div>
         </div>
-        <div>
-            {{ user._id }}
-        </div>
-        <div>
-            VPN Usage expiration date: {{ user.expire_date }}
-        </div>
-        <div>
-            <pre id="charge_history">
-            </pre>
-        </div>
+        <div class="col-md-3"></div>
     </div>
 <script src="/js/jquery.js"></script>
 <script>

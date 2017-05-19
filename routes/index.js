@@ -69,7 +69,7 @@ router.get('/receipt/:cobj', function(req, res, next) {
         buf = Buffer.from(charge_data, 'base64');
         zlib.inflate(buf, function(err, buffer) {
             charge_obj = JSON.parse(buffer);
-            console.log(charge_obj);
+//            console.log(charge_obj);
             res.render('receipt', { title: config.site.title, 'cobj':charge_obj });
         });
     } catch(e) {
