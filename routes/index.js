@@ -45,6 +45,15 @@ router.get('/cart', function(req, res, next) {
   res.render('cart', { title: 'Ignite VPN', 'price': config.price });
 });
 
+router.get('/logout', (req, res, next) => {
+    req.session.destroy((err) => {
+        if (err) {
+            console.log(err);
+        }
+        res.redirect('/');
+    });
+});
+
 function decrypt(in_s) {
     let decipher = crypto.createDecipher(config.crypto.algorithm, config.crypto.password);
     let decrypted = decipher.update(in_s, 'hex', 'utf8');
