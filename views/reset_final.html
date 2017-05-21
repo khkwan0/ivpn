@@ -1,0 +1,19 @@
+{% include "header.html" %}
+<style>
+    .center-block {
+        width:250px;
+    }
+</style>
+    <div class="row">
+        <div class="center-block">
+            <div>
+                <h2>Reset password</h2>
+                {% if (to) %}
+                    <p>A password reset email has been sent to: {{ to }}.</p>
+                {% else %}
+                    <p>An error has occurred. {{ result }}</p>
+                {% endif %}
+            </div>
+        </div> 
+    </div>
+{% include "footer.html" %}

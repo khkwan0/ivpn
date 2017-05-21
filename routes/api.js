@@ -284,9 +284,9 @@ function doCharge(charge_obj, uobj, req, res) {
                             radius.query(query, function(err, db_result, fields) {
                                 if (err) {
                                     console.log(err);
-                                    return reject(err);
+                                    reject(err);
                                 }
-                                return resolve(docs);
+                                resolve(docs);
                             });
                         });
                     }).then((docs)=> {
@@ -301,9 +301,9 @@ function doCharge(charge_obj, uobj, req, res) {
                             radius.query(query, function(err, db_result, fields) {
                                 if (err) {
                                     console.log(err);
-                                    return reject(err);
+                                    reject(err);
                                 }
-                                return resolve(db_result);
+                                resolve(db_result);
                             });
                         });
                     }).catch((err)=> {

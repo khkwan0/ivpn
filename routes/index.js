@@ -3,47 +3,224 @@ const router = express.Router();
 const config = require('../config');
 const crypto = require('crypto');
 const zlib = require('zlib');
+const uuidv4 = require('uuid/v4');
+const sendmail = require('sendmail')();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  if (req.session.key) {
-      res.render('index', { title: 'Ignite VPN', email:req.session.key });
-  } else {
-      res.render('index', { title: 'Ignite VPN' });
-  }
+    if (req.session.key) {
+        res.render('index', { title: config.site.title, email:req.session.key });
+    } else {
+        res.render('index', { title: config.site.title });
+    }
 });
 
 router.get('/meet-ignite', function(req, res, next) {
-  res.render('meet-ignite', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('meet-ignite', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('meet-ignite', { title: config.site.title });
+    }
 });
 
 router.get('/features', function(req, res, next) {
-  res.render('features', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('features', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('features', { title: config.site.title });
+    }
 });
 
 router.get('/apps', function(req, res, next) {
-  res.render('apps', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('apps', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('apps', { title: config.site.title });
+    }
 });
 
 router.get('/pricing', function(req, res, next) {
-  res.render('pricing', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('pricing', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('pricing', { title: config.site.title });
+    }
 });
 
 router.get('/support', function(req, res, next) {
-  res.render('support', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('support', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('support', { title: config.site.title });
+    }
 });
 
 router.get('/press', function(req, res, next) {
-  res.render('press', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('press', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('press', { title: config.site.title });
+    }
 });
 
 router.get('/blog', function(req, res, next) {
-  res.render('blog', { title: 'Ignite VPN' });
+    if (req.session.key) {
+        res.render('blog', { title: config.site.title , email:req.session.key });
+    } else {
+        res.render('blog', { title: config.site.title });
+    }
 });
 
 router.get('/cart', function(req, res, next) {
-  res.render('cart', { title: 'Ignite VPN', 'price': config.price });
+    if (req.session.key) {
+        res.render('cart', { title: config.site.title, 'price': config.price , email:req.session.key });
+    } else {
+        res.render('cart', { title: config.site.title, 'price': config.price });
+    }
 });
+
+router.get('/password_reset/:key', (req, res, next) => {
+    var key = req.params.key;
+    if (key) {
+        let db = req.db;
+        let collection = db.get('recovery_keys');
+        collection.find({uuid:key}, (err, result) => {
+            if (err) {
+                res.status(404).send();
+            } else if (Object.keys(result).length === 1) {
+                res.render('password_reset', { title: config.site.title, 'key':key });
+            } else {
+                res.status(404).send();
+            }
+        });
+    } else {
+        res.status(404).send();
+    }
+});
+
+router.post('/do_reset', (req, res, next) => {
+    let key = req.body.key;
+    let db = req.db;
+    let collection = db.get('recovery_keys');
+    collection.find({uuid:key}, (err, result) => {
+        return new Promise((resolve, reject) => {
+            if (err) {
+                reject(err);
+            } else {
+                resolve(result[0]);
+            }
+        });
+    }).then((rec_obj) => {
+        return new Promise((resolve, reject) => {
+            let collection = db.get('users');
+            let email = rec_obj[0].email;
+            collection.update({email:email}, { $set: { 'password': req.body.pw1 } }, (err, result) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    res.render('reset_result', { 'ok':1, title: config.site.title });
+                    resolve(result);
+                }
+            });
+        });
+    }).then((result) => {
+        console.log(result);
+        return new Promise((resolve, reject) => {
+            if (result.ok) {
+                let collection = db.get('recovery_keys');
+                collection.remove({uuid:key}, (err, result) => {
+                    if (err) {
+                        reject('Passwowrd changed, key is gone.');
+                    } else {
+                        resolve(result);
+                    }
+                });
+            } else {
+                reject(result);
+            }
+        });
+    }).catch((err) => {
+        console.log(err);
+        res.render('reset_result', { 'error':err, title: config.site.title });
+    });
+});
+
+router.get('/reset', (req, res, next) => {
+    if (req.session.key) {
+        res.render('reset', { title: config.site.title, email: req.session.key });
+    } else {
+        res.render('reset', { title: config.site.title });
+    }
+});
+
+router.post('/reset_me/', (req, res, next) => {
+    let email = req.body.email;
+    let db = req.db;
+    getUserByEmail(db, email).then((res_obj) => {
+        return generateEphemeral(res_obj);
+    }).then((recovery_obj) => {
+        console.log('xxx'+recovery_obj);
+        mail_obj = {
+            from: config.email.from,
+            to: recovery_obj.email,
+            subject: 'Ignite VPN - Password recovery',
+            html: '<div>Click on the following link to reset your password:</div><div><a href="https://ignitevpn.com/password_reset/'+recovery_obj.uuid+'">https://ignitevpn.com/password_reset/'+recovery_obj.uuid+'</a></div><div><h2>Note: The above link will expire in 5 minutes.</h2></div>'
+        };
+        return sendMail(mail_obj);
+    }).then((email)=>{
+        res.render('reset_final', { to: email, title: config.site.title });
+    }).catch((e)=> {
+        res.render('reset_final', { result: e, title: config.site.title });    
+    });
+});
+
+function sendMail(mail_obj) {
+    return new Promise((resolve, reject) => {
+        sendmail(mail_obj, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(mail_obj.to);
+        });
+    });
+}
+
+function generateEphemeral(res_obj) {
+    return new Promise((resolve, reject) => {
+        try {
+            let db = res_obj.db;
+            var collection = db.get('recovery_keys');
+            user = res_obj.user;
+        } catch(e) {
+            reject(e);
+        }
+        var recovery_obj = {
+            createdAt: new Date(),
+            uuid: uuidv4(),
+            name: user.name,
+            email: user.email
+        };
+        collection.insert(recovery_obj, (err, result)=>{
+            if (err) {
+                reject(err);
+            }
+        console.log('aaa'+recovery_obj);
+            resolve(recovery_obj);
+        });
+    });
+}
+
+function getUserByEmail(db, email) {
+    let collection = db.get('users');
+    return new Promise((resolve, reject) => {
+        collection.find({email:email}, (err, result) => {
+            if (err) {
+                reject(err);
+            }
+            resolve({'db':db, 'user':result[0]});
+        });
+    });
+}
 
 router.get('/logout', (req, res, next) => {
     req.session.destroy((err) => {

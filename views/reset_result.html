@@ -1,0 +1,11 @@
+{% include "header.html" %}
+    <div class="row">
+        <div>
+            {% if (ok) %}
+                <p>Password reset successful.</p>
+            {% else %}
+                <p>Password reset failed.</p>
+            {% endif %}
+        </div>
+    </div>
+{% include "footer.html" %}

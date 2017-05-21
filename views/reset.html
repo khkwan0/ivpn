@@ -1,0 +1,18 @@
+{% include "header.html" %}
+<style>
+    .center-block {
+        width:250px;
+    }
+</style>
+    <div class="row">
+        <div class="center-block">
+            <div>
+                <h2>Reset password</h2>
+                <form method="post" action="/reset_me">
+                    <input type="text" name="email" placeholder="E-mail" />
+                    <input type="submit" id="submit" value="Submit" class="btn btn-default"/>
+                </form>
+            </div>
+        </div> 
+    </div>
+{% include "footer.html" %}
