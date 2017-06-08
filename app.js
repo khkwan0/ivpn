@@ -37,7 +37,7 @@ app.set('view engine', 'html');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+app.use(logger('dev', { immediate: true}));
 app.use(cookieParser());
 app.use(session({
         store: new RedisStore({
