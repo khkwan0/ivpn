@@ -28,6 +28,10 @@ body {
     height: 100%;
 }
 
+.container-fluid {
+    padding: 0px;
+}
+
 
 /*
  * Remove text-shadow in selection highlight:
@@ -216,8 +220,8 @@ h5,
 h6,
 p {
     font-family: 'Roboto', sans-serif;
-    margin-top: 0;
-    margin-bottom: 0;
+    /*margin-top: 0;*/
+    /*margin-bottom: 0;*/
 }
 
 blockquote::after {
@@ -1793,3 +1797,951 @@ header > .nav li > a {
     -ms-flex-align: center;
     align-items: center;
 }
+
+
+/* cart css */
+
+
+
+
+
+.plan-selector {
+	margin-top: 32px
+}
+@media (max-width: 767px) {
+	.plan-selector {
+		margin-top: 8px
+	}
+}
+.plan {
+	border: 4px solid #ddd;
+	text-align: left;
+	background: #fff;
+	display: block;
+	color: #808080;
+	line-height: 1;
+	position: relative;
+	margin-bottom: 0;
+	text-align: center
+}
+@media (max-width: 767px) {
+	.plan {
+		text-align: left;
+		margin-bottom: 10px
+	}
+}
+.plan input[type=radio] {
+	display: none
+}
+.plan .plan-box {
+	border: 4px solid transparent;
+	height: 245px;
+	padding: 1em 5px
+}
+@media (max-width: 767px) {
+	.plan .plan-box {
+		padding: 8px;
+		height: auto
+	}
+}
+.plan .plan-box .corssed-out-price {
+	color: #CECECE;
+	font-weight: normal
+}
+.plan .plan-box .corssed-out-price .crossed-out-sup {
+	vertical-align: top;
+	display: inline
+}
+.plan .plan-box .corssed-out-price .crossed-out-monthly-amount {
+	font-size: 22px;
+	text-decoration: line-through;
+	display: inline
+}
+.plan .plan-box .billing-info .corssed-out-total {
+	text-decoration: line-through;
+	opacity: 0.8
+}
+.plan .checkmark {
+	display: none;
+	height: 38px;
+	width: 38px;
+	border-radius: 50%;
+	background: #FFA126;
+	position: absolute;
+	top: 15px;
+	left: 15px;
+	color: white
+}
+.plan .checkmark .glyphicon {
+	font-size: 20px;
+	line-height: 34px;
+	text-align: center
+}
+@media (max-width: 991px) {
+	.plan .checkmark {
+		height: 30px;
+		width: 30px
+	}
+	.plan .checkmark .glyphicon {
+		font-size: 18px;
+		line-height: 27px;
+		text-align: center;
+		display: block
+	}
+}
+@media (max-width: 767px) {
+	.plan .checkmark {
+		left: auto;
+		right: 15px;
+		height: 38px;
+		width: 38px
+	}
+	.plan .checkmark .glyphicon {
+		font-size: 20px;
+		line-height: 34px;
+		display: block
+	}
+}
+.plan.best-deal .checkmark {
+	display: block;
+	background-color: #ddd
+}
+.plan.best-deal.selected .checkmark {
+	display: block;
+	background-color: #FFA126
+}
+.plan:hover {
+	cursor: pointer
+}
+.plan.selected {
+	border-color: #FFA126
+}
+.plan.selected .plan-box {
+	border: 4px solid #FFA126
+}
+.plan.selected:hover {
+	border: 4px solid #FFA126
+}
+.plan.selected:hover .plan-box {
+	border: 4px solid #FFA126
+}
+.plan.selected .checkmark {
+	display: none
+}
+.plan:active {
+	border-color: #FFA126
+}
+.plan:active .plan-box {
+	border-color: #FFA126
+}
+.divider {
+	border-top: 1px solid #eee;
+	height: 2px;
+	width: 50%;
+	margin: 0 auto 10px
+}
+@media (max-width: 767px) {
+	.divider {
+		margin: 8px 0 8px
+	}
+}
+.plan-name {
+	color: #333;
+	font-weight: 700;
+	font-size: 23px;
+	margin: 20px auto 20px
+}
+@media (max-width: 767px) {
+	.plan-name {
+		font-size: 17px;
+		display: inline
+	}
+}
+.plan-amount {
+	margin-top: 4px
+}
+.plan.best-deal .plan-amount {
+	color: #FFA126
+}
+.plan-referrer {
+	padding-top: 5px;
+	color: #5BB846;
+	position: relative
+}
+@media (max-width: 767px) {
+	.plan-referrer {
+		margin-top: 0;
+		bottom: 0;
+		font-size: 16px
+	}
+}
+.referral-bonus {
+	color: #FFA126
+}
+.price {
+	font-weight: 700
+}
+@media (max-width: 767px) {
+	.price {
+		display: inline;
+		clear: left
+	}
+}
+.sup {
+	font-size: 19px;
+	vertical-align: top;
+	display: inline
+}
+@media (max-width: 767px) {
+	.sup {
+		font-size: 11px
+	}
+}
+.per-month {
+	font-size: 13px;
+	font-weight: 300;
+	margin-bottom: 20px
+}
+@media (max-width: 767px) {
+	.per-month {
+		display: inline
+	}
+}
+.monthly-amount {
+	font-size: 38px;
+	display: inline
+}
+@media (max-width: 767px) {
+	.monthly-amount {
+		font-size: 27px
+	}
+}
+.billing-info, .thirty-day {
+	font-size: 14px;
+	font-weight: 300;
+	margin-bottom: 4px
+}
+@media (max-width: 991px) {
+	.billing-info, .thirty-day {
+		font-size: 13px;
+		margin-bottom: 2px;
+		display: block
+	}
+}
+.thirty-day {
+	margin-top: 4px;
+	margin-bottom: 4px
+}
+@media (max-width: 767px) {
+	.thirty-day {
+		display: inline
+	}
+}
+.billed-amount {
+	font-weight: 700
+}
+.savings {
+	font-size: 18px;
+	font-weight: 700;
+	color: #FFA126
+}
+@media (max-width: 767px) {
+	.savings {
+		display: inline;
+		font-size: 13px
+	}
+}
+.best-deal-sticker span {
+	background: #545F66;
+	font-weight: 700;
+	font-size: 12px;
+	text-transform: uppercase;
+	color: #fff;
+	vertical-align: top;
+	padding: 4px 8px
+}
+.best-deal-sticker-md {
+	position: absolute;
+	text-align: right;
+	width: 100%;
+	top: -24px;
+	right: -4px
+}
+@media (max-width: 767px) {
+	.best-deal-sticker-md {
+		display: none
+	}
+}
+@media (min-width: 480px) {
+	.best-deal-sticker-sm {
+		display: none
+	}
+}
+@media (max-width: 767px) {
+	.best-deal-sticker-sm {
+		display: inline;
+		position: relative;
+		text-align: left;
+		width: auto;
+		top: auto;
+		right: auto
+	}
+}
+@media (max-width: 400px) {
+	.best-deal-sticker-sm {
+		display: block;
+		margin-top: 4px
+	}
+	.best-deal-sticker-sm span {
+		padding: 3px 4px;
+		display: inline-block;
+		margin-bottom: 2px
+	}
+}
+.step {
+	margin-top: 40px
+}
+.step:before {
+	background: #FFA126;
+	-moz-border-radius: 50%;
+	-webkit-border-radius: 50%;
+	border-radius: 50%;
+	color: white;
+	text-align: center;
+	font-size: 16px;
+	height: 25px;
+	width: 25px;
+	line-height: 25px;
+	font-weight: bold;
+	display: inline-block;
+	margin-right: 4px
+}
+.step1:before {
+	content: "1"
+}
+.step2:before {
+	content: "2"
+}
+.step3:before {
+	content: "3"
+}
+.step-content {
+	display: inline-block;
+	vertical-align: top;
+	max-width: 85%
+}
+p.payment-note {
+	color: #666;
+	font-size: 13px;
+	margin-top: 10px
+}
+h1 {
+	margin: 0 0 8px
+}
+h5 {
+	font-weight: 700;
+	font-size: 22px;
+	margin: 0 0 4px
+}
+@media (max-width: 767px) {
+	h5 {
+		font-size: 18px
+	}
+}
+.step p {
+	color: #666;
+	font-size: 13px
+}
+.payment-methods {
+	margin-top: 20px
+}
+
+
+
+
+
+
+.paymethod {
+	background-image: url(../images/paymethod.png);
+	background-repeat: no-repeat;
+	-webkit-background-size: 234px 180px;
+	-moz-background-size: 234px 180px;
+	background-size: 234px 180px
+}
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+	.paymethod {
+		background-image: url(../images/paymethod@2x.png)
+	}
+}
+.paymethod-alipay {
+	background-position: -84px 0px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-amex {
+	background-position: -134px -60px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-bitcoin {
+	background-position: 0px 0px;
+	width: 84px;
+	height: 30px
+}
+.paymethod-delta {
+	background-position: -84px -30px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-dinersclub {
+	background-position: 0px -60px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-discover {
+	background-position: -50px -60px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-fanapay {
+	background-position: 0px -90px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-giropay {
+	background-position: -50px -90px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-ideal {
+	background-position: -134px 0px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-interac {
+	background-position: -134px -30px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-jcb {
+	background-position: 0px -30px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-mastercard {
+	background-position: -134px -90px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-mint {
+	background-position: 0px -120px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-onecard {
+	background-position: -50px -120px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-paypal {
+	background-position: -100px -120px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-sofort {
+	background-position: 0px -150px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-unionpay {
+	background-position: -50px -150px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-visa {
+	background-position: -100px -150px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-visaelectron {
+	background-position: -184px 0px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-webmoney {
+	background-position: -184px -30px;
+	width: 50px;
+	height: 30px
+}
+.paymethod-yandexmoney {
+	background-position: -184px -60px;
+	width: 50px;
+	height: 30px
+}
+
+
+
+
+
+
+
+
+@media (min-width: 768px) {
+	.panel-body {
+		padding: 20px 40px
+	}
+}
+.panel-group .panel+.panel {
+	margin: -1px 0 0
+}
+@media (min-width: 768px) {
+	.panel-group .panel+.panel {
+		margin-top: 20px
+	}
+}
+.panel h4 {
+	color: #333;
+	text-decoration: none;
+	font-size: 16px;
+	font-weight: 700;
+	margin: 0;
+	line-height: 32px
+}
+.and-more {
+	margin-left: 12px
+}
+@media (max-width: 767px) {
+	.and-more {
+		display: none
+	}
+}
+.panel-heading a {
+	color: #333;
+	text-decoration: none;
+	padding: 10px 15px;
+	display: block
+}
+.panel-heading a:hover {
+	text-decoration: none
+}
+.panel-heading {
+	padding: 0
+}
+.panel-heading .accordion-toggle h4:before {
+	margin-right: 8px;
+	content: '';
+	vertical-align: middle;
+	display: inline-block;
+	width: 16px;
+	height: 16px;
+	background: url(//xvp.akamaized.net/assets/public/arrows-0d1949a86d776d1809eac82cdd2b8021.png) center bottom no-repeat;
+	background-size: 16px auto
+}
+.panel-heading .accordion-toggle.collapsed h4:before {
+	background: url(//xvp.akamaized.net/assets/public/arrows-0d1949a86d776d1809eac82cdd2b8021.png) center top no-repeat;
+	background-size: 16px auto
+}
+.panel-heading {
+	background: #FFFFFF;
+	border-radius: 4px
+}
+.panel-default>.panel-heading {
+	background: #FFFFFF
+}
+.panel-default {
+	border: 1px solid #bbb;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px
+}
+.order-summary {
+	margin: 32px 0 32px;
+	line-height: 1.25;
+	display: block;
+	float: left;
+	width: 100%
+}
+.order-summary .total {
+	font-size: 18px;
+	font-weight: bold
+}
+.order-summary .total span {
+	color: #FFA126
+}
+.billing-cycle {
+	font-size: 14px;
+	line-height: 1.5;
+	margin-top: 4px;
+	color: #666
+}
+p.tos {
+	margin: 20px 0 0
+}
+.secure-server {
+	font-weight: 700;
+	font-size: 16px;
+	display: block;
+	position: relative
+}
+.secure-server img {
+	width: 17px;
+	height: 22px;
+	margin-left: 4px
+}
+.secure-checkout {
+	font-size: 13px;
+	margin-top: 8px;
+	color: #999
+}
+p.caption {
+	font-size: 12px;
+	color: #999;
+	margin: 8px 0 0
+}
+label {
+	line-height: 18px;
+	margin: 6px 0;
+	font-weight: 400
+}
+.form-section h6 {
+	border-bottom: 2px solid #f5f6f9;
+	color: #aaa;
+	font-size: 13px;
+	font-weight: 700;
+	width: 100%;
+	text-transform: uppercase;
+	padding: 5px 0;
+	margin-bottom: 12px
+}
+.form-section {
+	margin: 0 0 20px
+}
+label span {
+	font-size: 12px;
+	color: #999;
+	line-height: 1
+}
+.free-trial-upgrade-banner {
+	margin-bottom: 20px
+}
+.free-trial-upgrade-banner .bg-info {
+	padding: 12px 30px
+}
+.free-trial-upgrade-banner .bg-info h4 {
+	margin: 0
+}
+label.error, label.xv-error {
+	margin: 6px 0 0;
+	font-size: 14px;
+	font-weight: 400;
+	color: #C8252C;
+	display: block;
+	line-height: 1.5
+}
+.form-group {
+	position: relative;
+	margin-bottom: 12px
+}
+label.valid, label.xv-valid {
+	width: 17px;
+	height: 13px;
+	background: url(//xvp.akamaized.net/assets/public/greencheckmark-c0035ce88780316e07fc4cb958dd0222.png) center center no-repeat;
+	display: inline-block;
+	text-indent: -9999px;
+	margin-left: 10px;
+	position: absolute;
+	right: 20px
+}
+.form-control.valid {
+	border-color: #3c763d;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+}
+.form-control.valid:focus {
+	border-color: #2b542c;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #67b168
+}
+.form-control.error {
+	border-color: #a94442;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075)
+}
+.form-control.error:focus {
+	border-color: #843534;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483;
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ce8483
+}
+.form-section label.valid, .form-section label.xv-valid {
+	bottom: 12px;
+	right: 10px
+}
+.form-section .country-select label.valid, .form-section .country-select label.xv-valid {
+	right: 22px
+}
+.form-section .month-select label.valid, .form-section .month-select label.xv-valid, .form-section .year-select label.valid, .form-section .year-select label.xv-valid {
+	right: -8px
+}
+@media (max-width: 767px) {
+	.form-section .month-select label.valid, .form-section .month-select label.xv-valid, .form-section .year-select label.valid, .form-section .year-select label.xv-valid {
+		right: 36px
+	}
+}
+.form-email {
+	position: relative
+}
+.form-email label.valid, .form-email label.xv-valid {
+	right: 20px;
+	top: 12px
+}
+@media (max-width: 767px) {
+	.month-select {
+		margin-bottom: 7.5px
+	}
+}
+.lang-limit {
+	font-size: 14px
+}
+.form-email .form-control-feedback {
+	top: 7px;
+	right: 10px
+}
+.credit-card-form .country-select .form-control-feedback {
+	top: 30px;
+	right: 15px
+}
+.credit-card-form .month-select .form-control-feedback, .credit-card-form .year-select .form-control-feedback {
+	top: 0;
+	right: -18px
+}
+@media (max-width: 767px) {
+	.credit-card-form .month-select .form-control-feedback, .credit-card-form .year-select .form-control-feedback {
+		right: 25px
+	}
+}
+.credit-card-form .has-feedback select.form-control {
+	padding-right: 0
+}
+.paymentwall-methods {
+	display: block;
+	float: left;
+	width: 100%
+}
+.cvv-tip-text p {
+	font-size: 13px
+}
+a.cvv-tip span {
+	cursor: pointer;
+	font-size: 14px;
+	color: #5bc0de
+}
+a.cvv-tip {
+	line-height: 8px
+}
+a.cvv-tip:hover {
+	text-decoration: none
+}
+.payment-radio input[type="radio"] {
+	float: left
+}
+.paymethod-row {
+	display: inline-block;
+	margin-left: 10px
+}
+.paymethod {
+	outline: 1px solid #ccc;
+	margin: 3px;
+	display: block;
+	float: left
+}
+.panel-heading .paymethod {
+	display: inline-block;
+	vertical-align: middle;
+	float: none;
+	margin-right: 0
+}
+@media (max-width: 767px) {
+	.panel-heading .paymethod {
+		display: none
+	}
+}
+.order-summary-box {
+	margin-top: 20px;
+	border: 1px solid #ddd;
+	background: #fff;
+	padding: 20px 28px;
+	color: #767676
+}
+.order-summary-box ul {
+	margin: 0;
+	padding: 0
+}
+.order-summary-box li {
+	font-size: 14px;
+	color: #666;
+	list-style: none;
+	margin-bottom: 6px
+}
+.order-summary-box li.last {
+	margin-bottom: 3px
+}
+.order-summary-box h4 {
+	font-size: 18px;
+	font-weight: 400;
+	margin-top: 0;
+	color: #333
+}
+.order-summary-box .fa-mobile {
+	font-size: 18px;
+	line-height: 6px;
+	position: relative;
+	top: 1px
+}
+.order-summary-box .fa-linux {
+	position: relative;
+	left: 2px;
+	top: 1px
+}
+body:nth-of-type(1) .order-summary-box ul.checkmark li {
+	padding: 0 0 0 18px;
+	line-height: 1.25
+}
+body:nth-of-type(1) .order-summary-box ul.checkmark li:after {
+	border-width: 0 3px 3px 0;
+	width: 7px;
+	height: 13px;
+	margin-top: 0px;
+	left: 0
+}
+
+
+ul.checkmark {
+    padding: 0;
+}
+ul.checkmark li {
+    margin: 0 0 12px;
+}
+body:nth-of-type(1) ul.checkmark li {
+    list-style-type: none;
+    padding: 0 0 0 40px;
+    position: relative;
+}
+body:nth-of-type(1) ul.checkmark li::before {
+    content: " ";
+    display: block;
+    left: 7px;
+    margin-top: 0;
+    position: absolute;
+    top: 0;
+}
+body:nth-of-type(1) ul.checkmark li::after {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #FFA126;
+    border-image: none;
+    border-style: solid;
+    border-width: 0 5px 5px 0;
+    content: " ";
+    display: block;
+    height: 20px;
+    left: 14px;
+    margin-top: -4px;
+    position: absolute;
+    top: 0;
+    transform: rotate(45deg);
+    width: 10px;
+}
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+	.form-section .country-select label.valid, .form-section .country-select label.xv-valid {
+		right: 42px
+	}
+}
+@media all and (-ms-high-contrast: none) and (max-width: 767px), (-ms-high-contrast: active) and (max-width: 767px) {
+	.form-section .month-select label.valid, .form-section .month-select label.xv-valid, .form-section .year-select label.valid, .form-section .year-select label.xv-valid {
+		right: 56px
+	}
+}
+@media (min-width: 768px) {
+	.step1 {
+		margin-bottom: 20px
+	}
+	.plan.best-deal {
+		margin-top: -23px
+	}
+	.plan.best-deal .plan-box {
+		height: 290px;
+		padding: 2em 5px
+	}
+}
+@media (max-width: 767px) {
+	.click_off_alerts .plan+.alert {
+		padding: 15px;
+		font-size: 13px
+	}
+}
+.click_off_alerts .plan+.alert {
+	display: none;
+	margin: 10px 0;
+	padding: 15px 30px
+}
+.click_off_alerts .plan.selected+.alert {
+	display: block
+}
+.green_select {
+	color: #FFA126
+}
+
+#bestvpn_offer.plan-box {
+	height: 300px
+}
+@media (max-width: 767px) {
+	#bestvpn_offer.plan-box {
+		height: auto
+	}
+}
+#bestvpn_offer .billing-info {
+	line-height: 1.3
+}
+#bestvpn_offer .plan-promo {
+	padding-top: 5px;
+	color: #5BB846;
+	font-size: 18px;
+	position: relative;
+	bottom: 16px
+}
+@media (max-width: 767px) {
+	#bestvpn_offer .plan-promo {
+		margin-top: 0;
+		bottom: 0;
+		font-size: 16px
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

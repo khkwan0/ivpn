@@ -71,11 +71,27 @@ router.get('/blog', function(req, res, next) {
     }
 });
 
+router.get('/faq', (req, res, next) => {
+ res.render('faq', {title: config.site.title});
+});
+
+router.get('/terms', (req, res, next) => {
+ res.render('terms', {title: config.site.title});
+});
+
+router.get('/privacy', (req, res, next) => {
+ res.render('privacy', {title: config.site.title});
+});
+
+router.get('/contact', (req, res, next) => {
+ res.render('contact', {title: config.site.title});
+});
+
 router.get('/cart', function(req, res, next) {
     if (req.session.key) {
-        res.render('cart', { title: config.site.title, 'price': config.price , email:req.session.key });
+        res.render('cart', { title: config.site.title, 'price': config.price , email:req.session.key, 'pk': config.stripe.pk });
     } else {
-        res.render('cart', { title: config.site.title, 'price': config.price });
+        res.render('cart', { title: config.site.title, 'price': config.price, 'pk': config.stripe.pk });
     }
 });
 
@@ -256,7 +272,7 @@ router.get('/receipt/:cobj', function(req, res, next) {
         zlib.inflate(buf, function(err, buffer) {
             charge_obj = JSON.parse(buffer);
 //            console.log(charge_obj);
-            res.render('receipt', { title: config.site.title, 'cobj':charge_obj });
+            res.render('receipt', { title: config.site.title, 'cobj':charge_obj, email: req.session.key });
         });
     } catch(e) {
         res.status(404).send(e.stack);
@@ -283,13 +299,35 @@ router.post('/login', function(req, res, next) {
     }
 });
 
+router.get('/members/payment', (req, res, next) => {
+  if (!req.session.key) {
+      res.render('login', {title: config.site.title});
+  } else {
+    getUser(req, req.session.key)
+    .then((user) => {
+      res.render('cart');
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      res.status(500).send();
+    });
+  }
+});
+
 router.get('/members/clientarea', function(req, res, next) {
     if (!req.session.key) {
         res.render('login', {title: config.site.title});
     } else {
         try {
-            user = JSON.parse(req.session.user);
-            res.render('clientarea', { title: config.site.title, user:user, email: user.email });
+            getUser(req, req.session.key)
+            .then((user) => {
+              console.log(user);
+              res.render('clientarea', { title: config.site.title, user:user, email: user.email });
+            })
+            .catch((err) => {
+              console.log(err.stack);
+              res.status(500).send();
+            });
         } catch(e) {
             console.log(e);
             res.status(500).send();
@@ -324,6 +362,20 @@ function verifyLogin(req, email, pwd) {
         });
     });
     */
+}
+
+const getUser = (req, email) => {
+  return new Promise((resolve, reject) => {
+    let Users = req.db.collection('users');
+    Users.findOne({email:email})
+    .then((result) => {
+      resolve(result);
+    })
+    .catch((err) => {
+      console.log(err.stack);
+      reject(err);
+    });
+  })
 }
 
 module.exports = router;

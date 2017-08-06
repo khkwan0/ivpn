@@ -11,18 +11,18 @@
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "express": "~4.15.2",
-    "express-session": "^1.15.2",
+    "express-session": "^1.15.5",
     "moment": "^2.18.1",
-    "mongodb": "^2.2.26",
-    "monk": "^4.0.0",
-    "morgan": "~1.8.1",
-    "mysql": "^2.13.0",
-    "nunjucks": "^3.0.0",
+    "mongodb": "^2.2.30",
+    "monk": "^4.1.0",
+    "morgan": "^1.8.2",
+    "mysql": "^2.14.1",
+    "nunjucks": "^3.0.1",
     "redis": "^2.7.1",
     "sendmail": "^1.1.1",
     "serve-favicon": "~2.4.2",
-    "stripe": "^4.19.0",
-    "uuid": "^3.0.1",
-    "validator": "^7.0.0"
+    "stripe": "^4.23.1",
+    "uuid": "^3.1.0",
+    "validator": "^7.2.0"
   }
 }

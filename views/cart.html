@@ -1,148 +1,424 @@
 {% include "header.html" %}
-        <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-6">
-                <h2>Configure</h2>
-                <h4>Configure your desired options and continute to checkout.</h4>
-                <div>
-                    <label>Choose billing cycle</label>
-                </div>
-                <select id="cycle" name="cycle" style="width:70%;padding-top:5px;padding-bottom:5px">
-                    <option value="monthly">{{ price.monthly}} USD Monthly</option>
-                    <option value="semi">{{ price.semi }} USD Semi-Annually</option>
-                    <option value="annual" selected>{{ price.annual }} USD Annually</option>
-                </select>
-                <div class="sub-heading">
-                    <span>Additonal required information</span>
-                </div>
-                <div>
-                    <label>Username - This will be your VPN login as well<label>
-                </div>
-                <div>
-                    <input id="uname" name="uname" style="width:70%;padding-top:5px;padding-bottom:5px"/>
-                </div>
-                <div>
-                    <label>Email - for password recovery<label>
-                </div>
-                <div>
-                    <input id="lemail" name="email" style="width:70%;padding-top:5px;padding-bottom:5px"/>
-                </div>
-                <div>
-                    <label>
-                        VPN Password
-                    </label>
-                </div>
-                <div>
-                    <input id="pw1" name="pw1" type="password"  style="width:70%;padding-top:5px;padding-bottom:5px"/>
-                </div>
-                <div>
-                    <label>
-                        Confirm VPN Password
-                    </label>
-                </div>
-                <div>
-                    <input id="pw2" name="pw2" type="password"  style="width:70%;padding-top:5px;padding-bottom:5px"/>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div>
-                    <div>
-                        <span>Order Summary</span>
-                    </div>
-                    <div>
-                        <div><h5>Ignite VPN</h5></div>
-                    </div>
-                    <div>
-                        <table>
-                            <tr><td>IgniteVPN</td><td id="base_price"></td></tr>
-                            <tr><td colspan="2"><hr /></td></tr>
-                            <tr><td>Setup Fees</td><td>0.00</td></tr>
-                            <tr><td id="freq"></td><td id="freq_price"></td></tr>
-                            <tr><td colspan="2"><hr /></td></tr>
-                            <tr><td></td><td id="total"></td><tr>
-                            <tr><td></td><td style="text-align:right">Total Due Today</td><tr>
-                        </table>
-                    </div>
-                    <div>
-                        <button id="submit" class="btn btn-primary btn-lg">Contintue  <i class="fa fa-arrow-circle-right"></i></button>
-                    </div>
-                    <div id="error" style="display:none">
-                    </div>
-                </div>
-            </div>
+<!-- /.container -->
+<div class="body-overlay"></div>    
+
+<div class="col-lg-2"></div>
+<div class="col-lg-8">
+  <form class="new_signup" id="new_signup" action="#" accept-charset="UTF-8" method="post" >
+    <input type="hidden" value="annual" name="package_id" id="signup_package_id" />
+    <input type="hidden" name="payment_method" id="signup_payment_method" />
+    <h2>Choose your IgniteVPN plan</h2>
+    <p><strong>ALL PLANS</strong> are covered by a no-hassle <strong>100% Money-Back Guarantee</strong> for your first 30 days of service.<br>Get a VPN in 3 easy steps!</p>
+
+
+
+
+
+
+
+
+
+
+    <!-- STEP 1 -->
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="step step1">
+          <div class="step-content">
+            <h5>Select a plan that works for you:
+            </h5>
+            <p>All plans include all IgniteVPN apps, 24/7 customer support, and high-speed unlimited bandwidth.</p>
+          </div>
         </div>
-<script src="/js/jquery.js"></script>
+      </div>
+    </div>
+
+
+
+    <div class="row plan-selector">
+      <div class="col-sm-4">
+        <div class='plan' data-override-months='1' data-package='{"id":1,"cost":"12.95","billing_cycle":1,"billing_cycle_units":"months","cost_per_month":12.95,"billing_cycle_months_number":1}' id='package_1'>
+          <div class="plan-box">
+            <div class="checkmark">
+              <div class="glyphicon glyphicon-ok"></div>
+            </div>
+            <div class="plan-name">
+              1 Month
+            </div>
+            <div class="plan-amount">
+              <div class="price">
+                <div class="sup">$</div>
+                <div class="monthly-amount">6.95</div>
+              </div>
+              <div class="per-month">per month</div>
+            </div>
+            <div class="divider"></div>
+            <div class="billing-info">Billed $6.95 every month.</div>
+            <div class="thirty-day">30-day money-back guarantee.</div>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="col-sm-4">
+        <div class="best-deal plan selected" data-package="{&quot;id&quot;:3,&quot;cost&quot;:&quot;99.95&quot;,&quot;billing_cycle&quot;:12,&quot;billing_cycle_units&quot;:&quot;months&quot;,&quot;cost_per_month&quot;:8.32,&quot;billing_cycle_months_number&quot;:12}" id="package_3">
+          <div class="best-deal-sticker best-deal-sticker-md">
+            <span>Most Popular</span>
+          </div>
+          <div class="plan-box">
+            <div class="checkmark">
+              <div class="glyphicon glyphicon-ok"></div>
+            </div>
+            <div class="plan-name">
+              12 Months
+            </div>
+            <div class="best-deal-sticker best-deal-sticker-sm">
+              <span>Most Popular</span>
+            </div>
+            <div class="corssed-out-price">
+              <div class="crossed-out-sup">
+                $
+              </div>
+              <div class="crossed-out-monthly-amount">
+                7.95
+              </div>
+            </div>
+            <div class="plan-amount">
+              <div class="price">
+                <div class="sup">$</div>
+                <div class="monthly-amount">3.33</div>
+              </div>
+              <div class="per-month">per month</div>
+            </div>
+            <div class="divider"></div>
+            <div class="billing-info">Billed <span class="corssed-out-total">$95.40</span> $39.95 every 12 months.</div>
+            <div class="thirty-day">30-day money-back guarantee.</div>
+            <div class="savings">Save 35%</div>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-4">
+        <div class="plan" data-package="{&quot;id&quot;:2,&quot;cost&quot;:&quot;59.95&quot;,&quot;billing_cycle&quot;:6,&quot;billing_cycle_units&quot;:&quot;months&quot;,&quot;cost_per_month&quot;:9.99,&quot;billing_cycle_months_number&quot;:6}" id="package_2">
+          <div class="plan-box">
+            <div class="checkmark">
+              <div class="glyphicon glyphicon-ok"></div>
+            </div>
+            <div class="plan-name">
+              6 Months
+            </div>
+            <div class="plan-amount">
+              <div class="price">
+                <div class="sup">$</div>
+                <div class="monthly-amount">5.99</div>
+              </div>
+              <div class="per-month">per month</div>
+            </div>
+            <div class="divider"></div>
+            <div class="billing-info">Billed $35.95 every 6 months.</div>
+            <div class="thirty-day">30-day money-back guarantee.</div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+
+
+
+
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <p class="payment-note">All amounts shown are in <strong>USD</strong>.</p>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="step step2">
+          <div class="step-content">
+            <h5>Enter your account information:</h5>
+            <p>Privacy Guarantee: We do not share your information and will contact you only as needed to provide our service.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="form-email">
+            <input placeholder="Your Email Address" autocomplete="off" class="required form-control input-lg" size="30" name="signup_email" id="signup_email" type="email">
+            <p class="caption">We hate spam as much as you do.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="form-username">
+            <input placeholder="Your Username" autocomplete="off" class="required form-control input-lg" size="30" name="username" id="signup_username" type="text">
+            <p class="caption">This will be your VPN login as well.</p>
+          </div>
+        </div>
+      </div>
+
+
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="form-password">
+            <input placeholder="Your VPN Password" autocomplete="off" class="required form-control input-lg" size="30" name="signup_password" id="signup_password" type="password">
+            <p class="caption">This will be your VPN password as well.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-sm-6">
+        <div class="form-group">
+          <div class="form-email">
+            <input placeholder="Confirm Your VPN Password" autocomplete="off" class="required form-control input-lg" size="30" name="password_confirm" id="signup_password_confirm" type="password">
+            <p class="caption"></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <input type="submit" class="btn btn-success btn-lg" value="Join" id="signup_submit" />
+  </form>
+
+
+  <div style="display:none" id="payment_area">
+  <form id="payment-form" action="#" accept-charset="UTF-8" method="post" >
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="step step3">
+          <div class="step-content">
+            <h5>Select your preferred method of payment:</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+    <div class="row">
+      <div class="col-md-8">
+        <div class="payment-methods">
+          <div class="panel-group" id="accordion">
+            <div class="panel panel-default" data-payment-method="1">
+              <div class="panel-heading">
+                <a class="accordion-toggle collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapseOne">
+                  <h4>
+                    Credit Card
+                    <div class="paymethod-row">
+                      <div class="paymethod paymethod-visa"></div>
+                      <div class="paymethod paymethod-mastercard"></div>
+                      <div class="paymethod paymethod-amex"></div>
+                      <div class="paymethod paymethod-discover"></div>
+                      <div class="paymethod paymethod-jcb"></div>
+                      <div class="paymethod paymethod-visaelectron"></div>
+                      <!--<div class="paymethod paymethod-delta"></div>
+                        <div class="paymethod paymethod-dinersclub"></div>-->
+                    </div>
+                  </h4>
+                </a>
+              </div>
+              <div class="credit-card-form panel-collapse collapse" id="collapseOne" style="height: 0px;">
+                <div class="panel-body">
+                  <div class="row">
+                    <div class="col-sm-12">
+                        <h6>Your Credit Card Details</h6>
+                        <div id="card-element" style="border-style:solid;border-width: 1px; border-color:#808080;padding:5px 5px 5px 5px;border-radius: 6px"></div>
+                        <div id="card-errors"></div>
+                    </div>
+                  </div>
+                  <div class="order-summary">
+                    <div class="total">
+                      Order Total:
+                      <span class="order-total-value">$39.95</span>
+                      <input type="hidden" value="3995" id="order-total-value" />
+                    </div>
+                    <div class="billing-cycle">
+                      <span class="IgniteVPN-plan">IgniteVPN 12-month plan</span>
+                      <span class="plan-description">($3.33 per month, billed every 12 months)</span>
+                    </div>
+                  </div>
+
+                  <p>
+                  <input type="submit" id="sub_button" class="btn btn-success btn-lg" value="Order" />
+                  </p><div class="secure-checkout">
+                    <img alt="Secure Server" src="//xvp.akamaized.net/assets/public/lock-icon-01931d0817d7ab197ec7c9b0f8da8c5d.png" width="10" height="13">
+                    Secure checkout. You're 100% backed by our 30-Day Money-Back Guarantee. 
+                  </div>
+                  <p></p>
+                  <p class="tos">By submitting this form you agree to our <a href="/tos" target="_blank">Terms of service</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default" data-payment-method="2">
+              <div class="panel-heading">
+                <a class="accordion-toggle collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapseTwo">
+                  <h4>
+                    PayPal
+                    <div class="paymethod-row">
+                      <div class="paymethod paymethod-paypal"></div>
+                    </div>
+                  </h4>
+                </a>
+              </div>
+              <div class="collapse panel-collapse" id="collapseTwo">
+                <div class="panel-body">
+                  <p>To finish sign-up, click on the “Continue to PayPal” button.</p>
+                  <div class="order-summary">
+                    <div class="total">
+                      Order Total:
+                      <span class="order-total-value">$39.95</span>
+                    </div>
+                    <div class="billing-cycle">
+                      <span class="IgniteVPN-plan">IgniteVPN 12-month plan</span>
+                      <span class="plan-description">($3.33 per month, billed every 12 months)</span>
+                    </div>
+                  </div>
+
+                  <p>
+                  <input name="commit" value="Continue to Paypal" class="btn btn-success btn-lg" type="submit">
+                  </p>
+                  <p class="tos">By continuing to PayPal, you agree to our <a href="/tos" target="_blank">terms of service</a></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel-default" data-payment-method="5">
+              <div class="panel-heading">
+                <a class="accordion-toggle collapsed" data-parent="#accordion" data-toggle="collapse" href="#collapseThree">
+                  <h4>
+                    Bitcoin
+                    <div class="paymethod-row">
+                      <div class="paymethod paymethod-bitcoin"></div>
+                    </div>
+                  </h4>
+                </a>
+              </div>
+              <div class="collapse panel-collapse" id="collapseThree">
+                <div class="panel-body">
+                  <p>Continue below to buy VPN with Bitcoin.</p>
+                  <div class="order-summary">
+                    <div class="total">
+                      Order Total:
+                      <span class="order-total-value">$12.95</span>
+                    </div>
+                    <div class="billing-cycle">
+                      <span class="IgniteVPN-plan">IgniteVPN 1-month plan</span>
+                      <span class="plan-description-one-time">($12.95 for 1 month of service).</span>
+                      <span class="one-time-only">
+                        This is a one-time payment only.
+                      </span>
+                    </div>
+                  </div>
+
+                  <p>
+                  <input name="commit" value="Continue to BitPay" class="btn btn-success btn-lg" type="submit">
+                  </p>
+                  <p class="tos">By continuing to BitPay, you agree to our <a href="/tos" target="_blank">terms of service</a></p>
+                </div>
+              </div>
+            </div>
+
+
+
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="order-summary-box">
+          <h4>IgniteVPN includes:</h4>
+          <ul class="checkmark">
+            <li>24/7 customer support by Live Chat</li>
+            <li><em>Ultra fast</em> servers in 94 countries</li>
+            <li>Apps for <i class="fa fa-windows"></i> <i class="fa fa-apple"></i> <i class="fa fa-android"></i> <i class="fa fa-mobile"></i> <i class="fa fa-wifi"></i> <i class="fa fa-linux"></i> and more!</li>
+            <li>Best-in-class security &amp; encryption</li>
+            <li>Unlimited bandwidth &amp; server switches</li>
+            <li><strong>30 Days Risk Free.</strong> Not satisfied? Get your money back, no questions asked.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </form>
+  </div>
+<script src="/js/package_opt.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.17.0/jquery.validate.min.js"></script>
+<script src="/js/signup_validation.js"></script>
 <script>
-
-    populate_price();
-
-    $('#cycle').change(function() {
-        populate_price();
-    });
-
-    function populate_price() {
-        var cycle = $('#cycle').find(':selected').val();
-        var cost = 0.00;
-        var freq_display = '';
-        if (cycle == 'annual') {
-            cost =  {{ price.annual }};
-            freq_display = 'Annually';
-        } else if (cycle == 'semi') {
-            cost = {{ price.semi }};
-            freq_display = 'Semi-Annually';
-        } else if (cycle == 'monthly') {
-            cost = {{ price.monthly }};
-            freq_display = 'Monthly';
-        }
-        $('#base_price').text(cost);
-        $('#freq_price').text(cost);
-        $('#freq').text(freq_display);
-        $('#total').text(cost);
+var stripe = Stripe('{{ pk }}');
+var elements = stripe.elements();
+var style = {
+  base: {
+    color: '#32325d',
+    lineHeight: '24px',
+    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+    fontSmoothing: 'antialiased',
+    fontSize: '16px',
+    '::placeholder': {
+      color: '#aab7c4'
     }
+  },
+  invalid: {
+    color: '#fa755a',
+    iconColor: '#fa755a'
+  }
+};
 
-$('#submit').click(function() {
-    var uname = $('#uname').val();
-    var email = $('#lemail').val();
-    var pw1 = $('#pw1').val();
-    var pw2 = $('#pw2').val();
-    var cycle = $('#cycle').find(':selected').val();
-    $('#error').hide();
-    console.log('email: '+ email);
-    if (uname && pw1 && pw2 && email && pw1===pw2) {
-        $.post('/api/register', 
-            {
-                'uname': uname,
-                'pwd': pw1,
-                'email':email,
-                'freq': cycle
-            }, function(data) {
-                if (data.status == 0) {
-                    $('#error').text(data.msg);
-                    $('#error').show();
-                }  else {
-                    try {
-                        if (data.status == 1) {
-                            window.location = '/payment/'+data.msg;
-                        } else {
-                            $('#error').text(dat.msg);
-                            $('#error').show();
-                        }
-                    } catch(e) {
-                        $('#error').text(data.msg);
-                        $('#error').show();
-                    }
-                }
-            },'json');
-    } else if (!uname) {
-        $('#error').text('No User Name');
-        $('#error').show();
-    } else if (!email) {
-        $('#error').text('No Email');
-        $('#error').show();
-    } else {
-        $('#error').text('Password mismatch');
-        $('#error').show();
-    }
+var card = elements.create('card', {style: style});
+card.mount('#card-element');
+card.addEventListener('change', function(event) {
+	var displayError = document.getElementById('card-errors');
+	if (event.error) {
+		displayError.textContent = event.error.message;
+	} else {
+		displayError.textContent = '';
+	}
 });
+
+var form = document.getElementById('payment-form');
+form.addEventListener('submit', function(event) {
+	event.preventDefault();
+    $('#sub_button').prop('disabled','true');
+	stripe.createToken(card).then(function(result) {
+		if (result.error) {
+			var displayError = document.getElementById('card-errors');
+			displayError.textContent = result.error.message;
+            $('#sub_button').prop('disabled','');
+		} else {
+			stripeTokenHandler(result.token);
+		}
+	});
+});
+
+function stripeTokenHandler(token) {
+	$.post('/api/charge_new',
+		{
+			'stripe_obj': JSON.stringify(token),
+      'amount': $('#order-total-value').val(),
+      'freq': $('#signup_package_id').val()
+		},
+		function(data) {
+            if (data.status == '1') {
+                window.location = '/receipt/'+data.msg;
+            } else {
+                $('#card-errors').text(data.msg);
+                $('#sub_button').prop('disabled','');
+            }
+		},'json'
+	);
+}
 </script>
-{% include "footer.html" %}
+  {% include "footer.html" %}
+

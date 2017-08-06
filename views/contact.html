@@ -1,0 +1,33 @@
+{% include "header.html" %}
+    <div class="body-overlay"></div>
+    <div class="iginte-support-header">
+        <div class="inner-support-header">
+            <div class="center-center mid-page-logo">
+            </div>
+            <div class="header-content center-center full-width-md">
+                <h1 class="heading-1">Ignite Support</h1>
+            </div>
+        </div>
+    </div>
+    <section class="content-mid">
+        <div class="separate-div">
+            <h2 class="heading-2">Contact Us</h2>
+            <br>
+            <p>Contact us anytime and we will be happy to answer and support any questions or concerns you may have. Secure, private and anonymous VPN service. Use the form below or email support@ignitevpn.com.</p>
+            
+            <div class="container">  				
+            <form  action="mail.php" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="action" value="submit">
+            Your name:<br>
+            <input name="name" type="text" value="" size="30"/><br>
+            Your email:<br>
+            <input name="email" type="text" value="" size="30"/><br>
+            Your message:<br>
+            <textarea name="message" rows="7" cols="30"></textarea><br>
+            <input type="submit" value="Send email"/>
+            </form>
+			</div>
+            
+        </div>
+    </section>
+{% include "footer.html" %}
