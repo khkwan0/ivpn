@@ -11,7 +11,6 @@ const ObjectId = require('mongodb').ObjectID;
 var moment = require('moment');
 
 moment().format();
-
 router.get('/ips', function(req, res, next) {
 	let ips = [
 		{name:'Chicago USA',ip:'23.253.99.109', protocol: 'l2tp', remoteid: null, 'psk':'engagebdr'},
@@ -133,7 +132,7 @@ router.post('/charge_new', function(req, res, next) {
 const saveCustomer = (req, res, user, cus_obj, local_data, amount) => {
 	stripe.customers.create(cus_obj, (err, result) => {
 		if (err) {
-			console.log(err);
+      res.status(200).send(JSON.stringify({status:0, msg: err.message}));
 		} else {
 			result.description = JSON.parse(result.description);
 			//            console.log('create ciustomer: ' + JSON.stringify(result));
@@ -144,10 +143,12 @@ const saveCustomer = (req, res, user, cus_obj, local_data, amount) => {
 					console.log(err);
 				}
 			});
+      console.log(cus_obj.source);
 			let charge_obj = {
 				amount: amount,
 				currency: 'usd',
 				customer: result.id, // customer id from above
+        source: cus_obj.source,
 				description: 'IGNITE VPN Subscription charge for ' + local_data.email
 			};
 			rv = doCharge(charge_obj, user, req, res);
@@ -180,10 +181,6 @@ router.get('/get_charges', function(req, res, next) {
 });
 
 function doCharge(charge_obj, user, req, res) {
-	try {
-		//        console.log(charge_obj);
-
-		// what we return to ajax call
 		let rv_obj = {
 			status: 0,
 			msg: ''
@@ -191,16 +188,13 @@ function doCharge(charge_obj, user, req, res) {
 		// charge it
 		stripe.charges.create(charge_obj, function(err, charge) {
 			if (err) {
-				console.log(err);
 				rv_obj.msg = err;
 				res.status(200).send(JSON.stringify(rv_obj));
 			} else {
-				//                console.log(charge)
 				if (charge.outcome.type == 'authorized') {
 					let num_days = 0;
           let freq = req.body.freq;
           let expire_date = '';
-          console.log(freq);
 					if (freq == 'monthly') {
 						expire_date = moment().add(1, 'months').format('YYYY-MM-DD HH:mm:ss');
             expire_date_pretty = moment().add(1, 'months').format('MMMM Do, YYYY');
@@ -292,9 +286,6 @@ function doCharge(charge_obj, user, req, res) {
 				}
 			}
 		});
-	} catch(e) {
-		res.status(200).send('unknown');
-	}
 }
 
 const getUser = (req, email) => {
