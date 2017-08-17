@@ -46,6 +46,7 @@
             $('#error_ctr').text(data.msg);
             $('#error_ctr').show();
           } else {
+            $('#error_ctr').hide();
             $('#payment_area').show();
             $('#signup_submit').hide();
             $('input').prop('disabled', true);

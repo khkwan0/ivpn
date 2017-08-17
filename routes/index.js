@@ -272,7 +272,7 @@ router.get('/receipt/:cobj', function(req, res, next) {
         zlib.inflate(buf, function(err, buffer) {
             charge_obj = JSON.parse(buffer);
 //            console.log(charge_obj);
-            res.render('receipt', { title: config.site.title, 'cobj':charge_obj, email: req.session.key });
+            res.render('thankyou', { title: config.site.title, 'cobj':charge_obj, email: req.session.key });
         });
     } catch(e) {
         res.status(404).send(e.stack);

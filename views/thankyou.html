@@ -1,0 +1,78 @@
+{% include "header.html" %}
+
+<style>
+span, h1 {
+	text-transform: uppercase;
+	text-align: center;
+}
+
+em {
+    display: block;
+    margin-top: 12px;
+	color: #e47f00;
+    font-style: normal;
+}
+</style>
+    
+    
+    <div class="body-overlay"></div>
+    <div class="iginte-app-header">
+        <div class="inner-app-header">
+            <div class="center-center mid-page-logo">
+            </div>
+            <div class="header-content center-center top-60 full-width-md">
+                <h1 class="heading-1">Thank You!</h1>
+                <p>Your account has been successfully setup.</p>
+                <div class="header-app-link">
+                    <a href="#" class="foot-app foot-app-1 mr-r-10">
+                    </a>
+                    <a href="#" class="foot-app foot-app-2 mr-l-10">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <section class="content-mid">
+    <div class="separate-div">
+		<h1>Order Details</h1>
+        <br>
+		<div class="container basic margin-top-50 margin-bottom-50">
+			<div class="row">
+				<div class="col-sm-2 col-md-5">
+					<dl class="row">
+						<dt class="col-md-4">Plan:</dt>
+						<dd class="col-md-8">12 months</dd>
+					</dl>
+					<dl class="row">
+						<dt class="col-md-4">Transaction ID:</dt>
+            <dd class="col-md-8">{{ cobj.id }}</dd>
+					</dl>
+				</div>
+				<div class="col-sm-5 col-md-4">
+					<a class="btn btn-warning btn-primary" href="/members/clientarea"><span class="glyphicon glyphicon-edit"></span> Go to your account</a>
+				</div>
+			</div>
+		</div>
+        
+	
+    </div>
+	</section>
+    
+    
+    
+    
+<script src="/js/jquery.js"></script>
+<script>
+    $.get('/api/get_charges', function(data) {
+//        $('#charge_history').text(JSON.stringify(data.msg,null,4));
+        if (data.res == 1) {
+            $.each(data.msg, function(key, value) {
+                let html = '<tr><td>'+value.datetime+'</td><td>'+value.charge.amount/100+'</td><td>'+value.charge.source.brand+' ending in '+value.charge.source.last4+'</td></tr>';
+                $('#trans_history').append(html);
+            });
+        } else {
+            $('#charge_history').text(data.msg);
+        }
+    },'json');
+</script>
+{% include "footer.html" %}

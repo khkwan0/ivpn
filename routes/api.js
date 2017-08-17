@@ -148,7 +148,7 @@ const saveCustomer = (req, res, user, cus_obj, local_data, amount) => {
 				amount: amount,
 				currency: 'usd',
 				customer: result.id, // customer id from above
-        source: cus_obj.source,
+//        source: cus_obj.source,
 				description: 'IGNITE VPN Subscription charge for ' + local_data.email
 			};
 			rv = doCharge(charge_obj, user, req, res);

@@ -185,6 +185,8 @@
       </div>
 
     </div>
+    <div id="error_ctr">
+    </div>
     <input type="submit" class="btn btn-success btn-lg" value="Join" id="signup_submit" />
   </form>
 
@@ -413,7 +415,7 @@ function stripeTokenHandler(token) {
             if (data.status == '1') {
                 window.location = '/receipt/'+data.msg;
             } else {
-                $('#card-errors').text(data.msg);
+                $('#card-errors').text(data.msg.message);
                 $('#sub_button').prop('disabled','');
             }
 		},'json'
