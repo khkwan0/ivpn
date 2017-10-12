@@ -62,7 +62,7 @@ em {
 		<div class="licenses container margin-bottom-50">
 			<div class="row text-center text-uppercase margin-bottom-20">
 				<div class="col-xs-5 col-sm-2">
-          <span>Your Package</span> <em>{{user.package}}</em>
+          <span>Your Package</span> <em>{{ user.package }}</em>
 				</div>
 				<div class="col-xs-5 col-sm-2">
           <span>Start date</span> <em>{{ user.start}}</em>
@@ -71,7 +71,7 @@ em {
           <span>Last day of VPN</span> <em>{{ user.expire_date_pretty }}</em>
 				</div>
 				<div class="col-xs-5 col-sm-2 margin-top-20 margin-top-sm-0">
-					<span>Payment provider</span> <em>&nbsp;</em>
+          <span>Payment provider</span> <em>{{ user.merch_customer_info.sources.data[0].brand }} - {{ user.merch_customer_info.sources.data[0].last4 }}</em>
 				</div>
 			</div>
 			<div></div>
@@ -82,19 +82,37 @@ em {
 		<div class="container instructions">
 			<div class="row">
 				<div class="col-sm-5 col-md-5">
-					<p class="single text-uppercase">Install on router</p>
+					<p class="single text-uppercase">Manually setup on iPhone (iOS)</p>
 				</div>
 				<div class="col-sm-5 col-md-5">
-					<a class="btn btn-warning btn-primary" href="#automated-installer/"><span class="glyphicon glyphicon-save"></span> VIEW</a>
+					<a class="btn btn-warning btn-primary" href="setup-ios"><span class="glyphicon glyphicon-save"></span> VIEW</a>
 				</div>
 			</div>
             <br>
 			<div class="row margin-top-50">
 				<div class="col-sm-5 col-md-5">
-					<p class="single text-uppercase">Manually set up VPN - No software</p>
+					<p class="single text-uppercase">Manually setup on Android</p>
 				</div>
 				<div class="col-sm-5 col-md-5">
-					<a class="btn btn-warning btn-primary" href="#servers"><span class="glyphicon glyphicon-save"></span> VIEW</a>
+					<a class="btn btn-warning btn-primary" href="setup-android"><span class="glyphicon glyphicon-save"></span> VIEW</a>
+				</div>
+			</div>
+            <br>
+			<div class="row margin-top-50">
+				<div class="col-sm-5 col-md-5">
+					<p class="single text-uppercase">Manually setup on PC</p>
+				</div>
+				<div class="col-sm-5 col-md-5">
+					<a class="btn btn-warning btn-primary" href="setup-pc"><span class="glyphicon glyphicon-save"></span> VIEW</a>
+				</div>
+			</div>
+            <br>
+			<div class="row margin-top-50">
+				<div class="col-sm-5 col-md-5">
+					<p class="single text-uppercase">Manually setup on Mac (OS X)</p>
+				</div>
+				<div class="col-sm-5 col-md-5">
+					<a class="btn btn-warning btn-primary" href="setup-mac"><span class="glyphicon glyphicon-save"></span> VIEW</a>
 				</div>
 			</div>
 		</div>

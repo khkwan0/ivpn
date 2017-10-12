@@ -1,0 +1,86 @@
+{% include "header.html" %}
+    <div class="body-overlay"></div>
+    <div class="iginte-support-header">
+        <div class="inner-support-header">
+            <div class="center-center mid-page-logo">
+            </div>
+            <div class="header-content center-center full-width-md">
+                <h1 class="heading-1">Manual Setup</h1>
+            </div>
+        </div>
+    </div>
+    <section class="content-mid">
+        <div class="separate-div">
+        
+        	<h2 class="heading-2">Set up your VPN on a Mac (OS X)</h2>
+        
+        	<!-- STEP 1 -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="step step1">
+                  <div class="step-content">
+                    <h5>Open Settings</h5>
+                    <p>Open your computer’s <strong>System Preferences</strong> then open <strong>Network</strong>. Click on the “<strong>+</strong>” sign under the menu on the left.</p>
+                    <img src="../images/mac/004.jpg" alt=""/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- STEP 2 -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="step step2">
+                  <div class="step-content">
+                    <h5>For the Interface, choose <strong>VPN</strong>. For VPN Type, select <strong>L2TP over IPSec</strong>. For <strong>Service Name</strong>, type in the name you’d like to use. Click <strong>Create</strong>.</h5>
+                    <br>
+                    <p><img src="../images/mac/006.jpg" alt=""/></p>
+                                    
+                    <ul>
+                    <li><strong>Server Address:</strong> Type the desired IgniteVPN server address. (Or use <strong>23.253.99.109</strong>)</li>
+                    <li><strong>Account Name:</strong>  Type your username you registered with.</li>
+                    </ul>
+                    Click on <strong>Authentication Settings</strong>.
+                    <br>
+                    <p><img src="../images/mac/007.jpg" alt=""/></p>
+                                   
+                    <ul>
+                    <li><strong>Password:</strong> Type your password you registered with.</li>
+                    <li><strong>Shared Secret:</strong>  Type <strong>engagebdr</strong></li>
+                    </ul>
+                    Click on <strong>Advanced</strong>.
+                    <p><img src="../images/mac/009.jpg" alt=""/></p>
+                    
+                    Under <strong>Options</strong>, check the box for <strong>Send all traffic over VPN connection</strong>. Click <strong>OK</strong>.
+                    
+                    <p><img src="../images/mac/010.jpg" alt=""/></p>
+                    Check the box for <strong>Show VPN status in menu bar</strong>. The VPN icon will appear in your menu bar in the upper-right corner of your screen. Click <strong>Apply</strong> to set the VPN configuration.
+                 
+                    
+                   
+                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <!-- STEP 3 -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="step step3">
+                  <div class="step-content">
+                    <h5>Connect to the VPN server location</h5>
+                    <p>You can connect to IgniteVPN either by clicking <strong>Connect</strong> in the Network settings window, or by clicking on the <strong>VPN status icon</strong> in the menu bar and selecting <strong>Connect [your network name]</strong>.</p>
+                    <p><img src="../images/mac/011.jpg" alt=""/></p>
+                    <br>
+                    <p>Congratulations! You can now begin surfing with freedom and security! Open your web browser, and all traffic will automatically be protected by IgniteVPN.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            
+            
+        </div>
+    </section>
+{% include "footer.html" %}

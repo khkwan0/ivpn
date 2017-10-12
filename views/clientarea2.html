@@ -1,0 +1,43 @@
+{% include "header.html" %}
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div>
+                {{ user.email }}
+            </div>
+            <div>
+                {{ user._id }}
+            </div>
+            <div>
+                <h3>Transaction History</h3>
+                <div>
+                    <table id="trans_history">
+                        <tr><th>Date</th><th>Amount</th><th>Last 4</th></tr>
+                    </table>
+                </div>
+            </div>
+            <div>
+                VPN Usage expiration date: {{ user.expire_date }}
+            </div>
+            <div>
+                <pre id="charge_history">
+                </pre>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+<script src="/js/jquery.js"></script>
+<script>
+    $.get('/api/get_charges', function(data) {
+//        $('#charge_history').text(JSON.stringify(data.msg,null,4));
+        if (data.res == 1) {
+            $.each(data.msg, function(key, value) {
+                let html = '<tr><td>'+value.datetime+'</td><td>'+value.charge.amount/100+'</td><td>'+value.charge.source.brand+' ending in '+value.charge.source.last4+'</td></tr>';
+                $('#trans_history').append(html);
+            });
+        } else {
+            $('#charge_history').text(data.msg);
+        }
+    },'json');
+</script>
+{% include "footer.html" %}

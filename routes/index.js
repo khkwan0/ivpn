@@ -87,6 +87,38 @@ router.get('/contact', (req, res, next) => {
  res.render('contact', {title: config.site.title});
 });
 
+router.get('/members/setup-ios', (req, res, next) => {
+  if (req.session.key) {
+    res.render('setup-ios', {title: config.site.title, email: req.session.key});
+  } else {
+    res.render('setup-ios', {title: config.site.title});
+  }
+});
+
+router.get('/members/setup-android', (req, res, next) => {
+  if (req.session.key) {
+    res.render('setup-android', {title: config.site.title, email: req.session.key});
+  } else {
+    res.render('setup-android', {title: config.site.title});
+  }
+});
+
+router.get('/members/setup-pc', (req, res, next) => {
+  if (req.session.key) {
+    res.render('setup-pc', {title: config.site.title, email: req.session.key});
+  } else {
+    res.render('setup-pc', {title: config.site.title});
+  }
+});
+
+router.get('/members/setup-mac', (req, res, next) => {
+  if (req.session.key) {
+    res.render('setup-mac', {title: config.site.title, email: req.session.key});
+  } else {
+    res.render('setup-mac', {title: config.site.title});
+  }
+});
+
 router.get('/cart', function(req, res, next) {
     if (req.session.key) {
         res.render('cart', { title: config.site.title, 'price': config.price , email:req.session.key, 'pk': config.stripe.pk });
